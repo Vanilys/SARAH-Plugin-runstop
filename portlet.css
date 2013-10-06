@@ -1,0 +1,23 @@
+
+.plugin-gridster.runstop .text {
+  background: #33A3EC;
+  left: 0; width: 100%; 
+  display: block;
+  text-align: center; 
+}
+
+.plugin-gridster.runstop .logo {
+  position: absolute;
+  z-index:0;
+  left: 22px; 
+  width: 80%;
+}
+
+.plugin-gridster.runstop .logo2 {
+  position: absolute;
+  z-index:-1;
+  top: 8px; 
+  left: 0px; 
+  width: 100%;
+
+}

@@ -1,0 +1,8 @@
+{
+  "modules" : { 
+    "runstop"  : {
+      "description": "Arrete definitivement ou redemarre completement S.A.R.A.H",
+      "version"    : "1.0"
+    }
+  }
+}
