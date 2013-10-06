@@ -15,5 +15,6 @@ Egalement :
 - Possibilité de fermer également Log2Console
 - Possibilité de forcer ou non la fermeture de SARAH
 - etc...﻿
-- 
+
+
 Bien lire la documentation fournie (index.html) accessible, une fois le plugin installé, via l'interface de SARAH en cliquant sur le Portlet "Run & Stop" !
