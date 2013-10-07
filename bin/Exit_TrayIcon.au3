@@ -24,6 +24,7 @@ Else
     _GUICtrlToolbar_ClickButton($hSysTray_Handle, $iSystray_ButtonNumber, "right")
     
     ; Browse the menu and click on the first bottom item
+    Sleep(100)
     Send("{up}{enter}")
 EndIf
 
