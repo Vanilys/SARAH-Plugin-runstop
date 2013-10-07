@@ -37,7 +37,7 @@ Pensez à bien mettre à jour ces valeurs si besoin est, tout est expliqué dans
   Micro=WSRMicro.cmd
   
   ; Version <= 3 alpha 2 : Kinect=WSRKinect.cmd
-  ; Version >= 3 beta 1  : Client_Kinect_Audio.cmd OR Client_Kinect.cmd
+  ; Version >= 3 beta 1  : Kinect=Client_Kinect_Audio.cmd OR Kinect=Client_Kinect.cmd
   Kinect=WSRKinect.cmd
   
   ; All versions : Log2Console=Log2Console.exe
