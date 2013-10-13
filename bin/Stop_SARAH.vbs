@@ -6,7 +6,8 @@
 ' Main procedure
 '--------------------------------------
 
-Dim sScriptPath, sCmdLineNode, sCmdLineKinect, sCmdLineMacro, sCmdLineConhost, sCmdLineLog2Console, sAutoItExit, sAutoItRefresh
+Dim WshShell, objWMIService, objFSO, colProcesses, objProcess, objPro
+Dim sScriptPath, sRootPath, sCmdLineNode, sCmdLineKinect, sCmdLineMacro, sCmdLineConhost, sCmdLineLog2Console, sAutoItExit, sAutoItRefresh
 Dim sExitTrayIcon_Speech, sExitTrayIcon_Console
 Dim bStopConsole, bStopGracefully
 Dim iReturnValue, iTimeBeforeKill
@@ -21,6 +22,7 @@ Set objFSO = CreateObject( "Scripting.FileSystemObject" )
 
 iReturnValue = -1
 sScriptPath = Replace(WScript.ScriptFullName, WScript.ScriptName, "")
+sRootPath    = Replace(sScriptPath, "plugins\runstop\bin\", "")
 sAutoItExit           = "Exit_TrayIcon.exe"
 sAutoItRefresh        = "Refresh_SystemTray.exe"
 sExitTrayIcon_Speech  = sAutoItExit & " /Speech"
@@ -42,7 +44,7 @@ ElseIf objFSO.FileExists(sRootPath & "Server_NodeJS.cmd") Then
 	sCmdLineKinect      = "WSRMacro_Kinect.exe"
 	
 Else
-	MsgBNox "Impossible de détecter la version de SARAH."
+	MsgBox "Impossible de détecter la version de SARAH."
 	WScript.Quit(iReturnValue)
 End If
 

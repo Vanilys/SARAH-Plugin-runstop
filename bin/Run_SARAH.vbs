@@ -6,6 +6,7 @@
 ' Main procedure
 '--------------------------------------
 
+Dim WshShell, objWMIService, objFSO, colProcesses, objProcess
 Dim sScriptPath, sRootPath, sConsolePath, sIsSpeakingLoop
 Dim sNodeJS, sKinect, sMicro, sLog2Console, sClient
 Dim sCmdLineNode, sCmdLineKinect, sCmdLineMicro, sCmdLineConhost, sCmdLineLog2Console, sCmdLineClient
