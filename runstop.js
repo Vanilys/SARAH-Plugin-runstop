@@ -1,5 +1,4 @@
-
-exports.action = function(data, callback, config){
+exports.action = function(data, callback, config, SARAH){
   
 var exec = require('child_process').exec;
   
@@ -11,11 +10,10 @@ var exec = require('child_process').exec;
 	}
 	
 	var process = '%CD%/plugins/runstop/bin/' + process;
-  console.log(process);
+  ;console.log(process);
   
   var child = exec(process,
   	function (error, stdout, stderr) {
-    	console.log(process);  
 		});
 	if (data.need == "stop") {
 		callback({'tts': "Au revoir."});
@@ -23,6 +21,5 @@ var exec = require('child_process').exec;
 	if (data.need == "restart") {
 		callback({'tts': "Je redaimarre."});
 	}
-		
-
+		    
 }

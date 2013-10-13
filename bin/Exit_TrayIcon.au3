@@ -14,6 +14,12 @@ Global $hSysTray_Handle, $iSystray_ButtonNumber
 
 ;~ WinActivate('[Class:Shell_TrayWnd]') ; if taskbar is Autohide
 
+;Opt('WINTITLEMATCHMODE', 4) 
+;ControlHide('classname=Shell_TrayWnd', '', '') 
+;ControlShow('classname=Shell_TrayWnd', '', '')
+
+
+
 $iSystray_ButtonNumber = Get_Systray_Index($sToolTipTitle)
 
 If $iSystray_ButtonNumber = -1 Then
@@ -24,8 +30,8 @@ Else
     _GUICtrlToolbar_ClickButton($hSysTray_Handle, $iSystray_ButtonNumber, "right")
     
     ; Browse the menu and click on the first bottom item
-    Sleep(100)
-    Send("{up}{enter}")
+    Sleep(10)
+    Send("{UP}{ENTER}")
 EndIf
 
 

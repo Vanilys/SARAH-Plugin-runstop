@@ -14,8 +14,11 @@ sStopSarah = "Stop_SARAH.vbs"
 
 Set WshShell = WScript.CreateObject("WScript.Shell")
 
-Return = WshShell.Run(sScriptPath & "\" & sStopSarah, 1, true)
-Return = WshShell.Run(sScriptPath & "\" & sRunSarah, 1, False)
+' Stop SARAH, and wait until the process are finished
+Return = WshShell.Run(sScriptPath & sStopSarah, 1, true)
+
+' Run SARAH
+Return = WshShell.Run(sScriptPath & sRunSarah, 1, False)
 
 Set WshShell = nothing
 

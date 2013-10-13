@@ -5,36 +5,60 @@
 '--------------------------------------
 ' Main procedure
 '--------------------------------------
-Dim sScriptPath, sCmdLineNode, sCmdLineKinect, sCmdLineMacro, sCmdLineConhost, sCmdLineLog2Console, sAutoItExec, sStopConsole, sStopGracefully
+
+Dim sScriptPath, sCmdLineNode, sCmdLineKinect, sCmdLineMacro, sCmdLineConhost, sCmdLineLog2Console, sAutoItExit, sAutoItRefresh
+Dim sExitTrayIcon_Speech, sExitTrayIcon_Console
+Dim bStopConsole, bStopGracefully
 Dim iReturnValue, iTimeBeforeKill
+Dim TimeBegin
 
 
-iReturnValue = -1
-
-sScriptPath = Replace(WScript.ScriptFullName, WScript.ScriptName, "")
-
-' Read in file values
-sCmdLineNode = ReadIni(sScriptPath & "\Config_RunStop.ini", "STOP", "CmdLineNode")
-sCmdLineMacro = ReadIni(sScriptPath & "\Config_RunStop.ini", "STOP", "CmdLineMicro")
-sCmdLineKinect = ReadIni(sScriptPath & "\Config_RunStop.ini", "STOP", "CmdLineKinect")
-sCmdLineConhost = ReadIni(sScriptPath & "\Config_RunStop.ini", "STOP", "CmdLineConhost")
-sCmdLineLog2Console = ReadIni(sScriptPath & "\Config_RunStop.ini", "STOP", "CmdLineLog2Console")
-sAutoItExec = ReadIni(sScriptPath & "\Config_RunStop.ini", "STOP", "AutoIExect")
-sStopConsole = ReadIni(sScriptPath & "\Config_RunStop.ini", "STOP", "StopLog2Console")
-sStopGracefully = ReadIni(sScriptPath & "\Config_RunStop.ini", "STOP", "StopGracefully")
-iTimeBeforeKill = CInt(ReadIni(sScriptPath & "\Config_RunStop.ini", "STOP", "TimeBeforeKill"))
-
-ExitTrayIcon_Speech = sAutoItExec & " /Speech"
-ExitTrayIcon_Console = sAutoItExec & " /Console"
-
+'-- Initialize parameters
 
 Set WshShell = WScript.CreateObject("WScript.Shell")
-WshShell.CurrentDirectory = sScriptPath
-
 Set objWMIService = GetObject("winmgmts:{impersonationLevel=impersonate}")
-Set colProcesses = objWMIService.ExecQuery("Select * From Win32_Process")
+Set objFSO = CreateObject( "Scripting.FileSystemObject" )
 
-' Browse all of the process, and check their command line
+iReturnValue = -1
+sScriptPath = Replace(WScript.ScriptFullName, WScript.ScriptName, "")
+sAutoItExit           = "Exit_TrayIcon.exe"
+sAutoItRefresh        = "Refresh_SystemTray.exe"
+sExitTrayIcon_Speech  = sAutoItExit & " /Speech"
+sExitTrayIcon_Console = sAutoItExit & " /Console"
+sCmdLineLog2Console   = "Log2Console.exe"
+
+If objFSO.FileExists(sRootPath & "WSRNode.cmd") Then
+	
+	' SARAH Version <= 3 alpha 2 (including 2.8, 2.95 ...)
+	sCmdLineNode        = "WSRNode.cmd"
+	sCmdLineMicro       = "WSRMacro.exe"
+	sCmdLineKinect      = "WSRMacro_Kinect.exe"
+	
+ElseIf objFSO.FileExists(sRootPath & "Server_NodeJS.cmd") Then
+	
+	' SARAH Version >= 3 beta 1
+	sCmdLineNode        = "Server_NodeJS.cmd"
+	sCmdLineMicro       = "WSRMacro.exe"
+	sCmdLineKinect      = "WSRMacro_Kinect.exe"
+	
+Else
+	MsgBNox "Impossible de détecter la version de SARAH."
+	WScript.Quit(iReturnValue)
+End If
+
+
+'-- Read ini file values
+
+bStopConsole        = CBool(ReadIni(sScriptPath & "Config_RunStop.ini", "STOP", "StopLog2Console"))
+bStopGracefully     = CBool(ReadIni(sScriptPath & "Config_RunStop.ini", "STOP", "StopGracefully"))
+iTimeBeforeKill     = CInt(ReadIni(sScriptPath & "Config_RunStop.ini", "STOP", "TimeBeforeKill"))
+if iTimeBeforeKill > 1000 then iTimeBeforeKill = 60
+
+
+'-- Browse all of the process, and check their command line
+
+WshShell.CurrentDirectory = sScriptPath
+Set colProcesses = objWMIService.ExecQuery("Select * From Win32_Process")
 For Each objProcess in colProcesses
 	if not IsNull(objProcess.CommandLine) then
 	
@@ -54,33 +78,33 @@ For Each objProcess in colProcesses
 		end if
 		
 		' Process for standard Microphone
-		if InStr(1, objProcess.CommandLine, sCmdLineMacro) <> 0 then
+		if InStr(1, objProcess.CommandLine, sCmdLineMicro) <> 0 then
 			'msgbox objProcess.ProcessId & " | " & objProcess.ParentProcessId & " | " & objProcess.CommandLine			
-			if sStopGracefully = "false" then 				
+			if bStopGracefully = false then 				
 				objProcess.Terminate()
 			else
-				Return = WshShell.Run(sScriptPath & ExitTrayIcon_Speech, 1, true)
+				Return = WshShell.Run(sScriptPath & sExitTrayIcon_Speech, 1, true)
 			end if
 		end if
 		
 		' Process for Kinect
 		if InStr(1, objProcess.CommandLine, sCmdLineKinect) <> 0 then
 			'msgbox objProcess.ProcessId & " | " & objProcess.ParentProcessId & " | " & objProcess.CommandLine				
-			if sStopGracefully = "false" then 
+			if bStopGracefully = false then 
 				objProcess.Terminate()
 			else
-				Return = WshShell.Run(sScriptPath & ExitTrayIcon_Speech, 1, true)
+				Return = WshShell.Run(sScriptPath & sExitTrayIcon_Speech, 1, true)
 			end if
 		end if
 		
 		' Process for the console
-		if sStopConsole = "true" then
+		if bStopConsole = true then
 			if InStr(1, objProcess.CommandLine, sCmdLineLog2Console) <> 0 then
 				'msgbox objProcess.ProcessId & " | " & objProcess.ParentProcessId & " | " & objProcess.CommandLine	
-				if sStopGracefully = "false" then 
+				if bStopGracefully = false then 
 					objProcess.Terminate()
 				else
-					Return = WshShell.Run(sScriptPath & ExitTrayIcon_Console, 1, true)
+					Return = WshShell.Run(sScriptPath & sExitTrayIcon_Console, 1, true)
 				end if
 			end if
 		end if
@@ -88,26 +112,25 @@ For Each objProcess in colProcesses
 	end if
 Next
 
-' If stopping gracefully, it can take a few seconds before all application are really closed
-' => wait before returning the code "0"
-' => If the time is too long (> TimeOut), kill process
-' => If stopping by killing the process, return immediately the code "0"
-if sStopGracefully = "false" then 
+
+'-- Check if application are still running
+'   If stopping gracefully, it can take a few seconds before all application are really closed
+'   => If the time is too long (> TimeOut), kill process
+
+if bStopGracefully = false then 
 	iReturnValue = 0
 else
 	TimeBegin = Time
 	Do  
 		iNbProcessRunning = 0
 		Set colProcesses = nothing
-		Set objWMIService = nothing
-		Set objWMIService = GetObject("winmgmts:{impersonationLevel=impersonate}")
 		Set colProcesses = objWMIService.ExecQuery("Select * From Win32_Process")
 		
 		For Each objProcess in colProcesses
 			if not IsNull(objProcess.CommandLine) then
 				
 				' Standard microphone
-				if InStr(1, objProcess.CommandLine, sCmdLineMacro) <> 0 then
+				if InStr(1, objProcess.CommandLine, sCmdLineMicro) <> 0 then
 					iNbProcessRunning = iNbProcessRunning + 1
 					if DateDiff("s", TimeBegin, Time) >= iTimeBeforeKill then
 						objProcess.Terminate()
@@ -123,7 +146,7 @@ else
 				end if
 				
 				' Console
-				if sStopConsole = "true" then
+				if bStopConsole = true then
 					if InStr(1, objProcess.CommandLine, sCmdLineLog2Console) <> 0 then
 						iNbProcessRunning = iNbProcessRunning + 1
 						if DateDiff("s", TimeBegin, Time) >= iTimeBeforeKill then
@@ -134,14 +157,23 @@ else
 				
 			end if
 		Next
+		WScript.Sleep(50)
 	Loop Until iNbProcessRunning=0
 	iReturnValue = 0
 end if
 
 
+'-- Refresh the SystemTray icons if the Micro/Kinect has been killed, to remove orphaned (ghost) icons
+
+Return = WshShell.Run(sScriptPath & sAutoItRefresh, 1, true)
+
+'--  Destroy objects
+
 Set colProcesses = nothing
 Set objWMIService = nothing
 Set WshShell = nothing
+Set objFSO = nothing
+
 
 WScript.Quit(iReturnValue)
 
@@ -149,6 +181,7 @@ WScript.Quit(iReturnValue)
 '--------------------------------------
 ' READ THE INI FILE
 '--------------------------------------
+
 Function ReadIni( myFilePath, mySection, myKey )
     ' This function returns a value read from an INI file
     '
@@ -191,19 +224,21 @@ Function ReadIni( myFilePath, mySection, myKey )
 
                 ' Parse lines until the next section is reached
                 Do While Left( strLine, 1 ) <> "["
-                    ' Find position of equal sign in the line
-                    intEqualPos = InStr( 1, strLine, "=", 1 )
-                    If intEqualPos > 0 Then
-                        strLeftString = Trim( Left( strLine, intEqualPos - 1 ) )
-                        ' Check if item is found in the current line
-                        If LCase( strLeftString ) = LCase( strKey ) Then
-                            ReadIni = Trim( Mid( strLine, intEqualPos + 1 ) )
-                            ' In case the item exists but value is blank
-                            If ReadIni = "" Then
-                                ReadIni = " "
+                    If Left( strLine, 1) <> ";" then
+                        ' Find position of equal sign in the line
+                        intEqualPos = InStr( 1, strLine, "=", 1 )
+                        If intEqualPos > 0 Then
+                            strLeftString = Trim( Left( strLine, intEqualPos - 1 ) )
+                            ' Check if item is found in the current line
+                            If LCase( strLeftString ) = LCase( strKey ) Then
+                                ReadIni = Trim( Mid( strLine, intEqualPos + 1 ) )
+                                ' In case the item exists but value is blank
+                                If ReadIni = "" Then
+                                    ReadIni = " "
+                                End If
+                                ' Abort loop when item is found
+                                Exit Do
                             End If
-                            ' Abort loop when item is found
-                            Exit Do
                         End If
                     End If
 
@@ -221,4 +256,8 @@ Function ReadIni( myFilePath, mySection, myKey )
         WScript.Echo strFilePath & " doesn't exists. Exiting..."
         Wscript.Quit 1
     End If
+
+    Set objIniFile = nothing
+    Set objFSO = nothing
+
 End Function
