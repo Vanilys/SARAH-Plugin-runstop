@@ -12,6 +12,7 @@ Dim sScriptPath, sPluginPath, sRootPath, sCmdLineNode
 Dim bStopServer
 Dim iReturnValue, NodePID
 
+On Error Resume Next
 
 '-- Initialize parameters
 

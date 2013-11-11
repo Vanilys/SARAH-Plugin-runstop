@@ -16,6 +16,7 @@ Dim iReturnValue, iTimeBeforeKill, iNbProcessRunning
 Dim TimeBegin
 Dim Return
 
+On Error Resume Next
 
 '-- Initialize parameters
 
