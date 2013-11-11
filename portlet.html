@@ -1,7 +1,73 @@
+<h3 class='default'><%= key %> - <%= module.version %></h3>
 <% stylesheet('assets/'+key+'/portlet.css') %>
-<div class="logo">
-  <img src="/assets/runstop/img/RunStop.png">
+<% 
+  var myRunStop = SARAH.ConfigManager.getModule(key); 
+  var infos = myRunStop.infos(); 
+  infos = infos.infos.runstop;
+%>
+
+<!--
+LE CODE SUIVANT PERMET LE RAFRAICHISSEMENT (toutes les 60 sec) DES UPTIMES (PC et SARAH))
+
+SI VOUS NE VOULEZ PLUS UTILISER CETTE FONCTIONNALITE :
+1) COMMENTER LE BLOC DE CODE CI-DESSOUS (entre les balises script ouvrante/fermante)
+2) COMMENTER LES LIGNES CONTENANT :
+	<span id="UptimeSarah"></span>
+	<span id="UptimeSystem"></span>
+3) DE-COMMENTER LES LIGNES CONTENANT :
+	<%= infos.UptimeSarah %>
+	<%= infos.UptimeSystem %>
+-->
+<script>	
+	$(document).ready(
+	  function() {
+		$("#UptimeSarah").load('sarah/runstop?need=s_UptimeSarah');
+		$("#UptimeSystem").load('sarah/runstop?need=s_UptimeSystem');
+	});
+	var auto_refresh = setInterval(
+	  function() {
+		$("#UptimeSarah").load('sarah/runstop?need=s_UptimeSarah');
+		$("#UptimeSystem").load('sarah/runstop?need=s_UptimeSystem');
+	  }, 60000); 
+ </script>
+
+
+<div>	
+	<span class="title_sarah">SARAH &nbsp;</span>
 </div>
-<div class="logo2">
-<img src="/assets/runstop/img/Restart.png">
+<div>
+	<span class="info_sarah">
+	last boot : <span class="info_title"><%= infos.LastBootSarah %></span>
+	&nbsp;&nbsp;uptime : <span class="info_title"><span id="UptimeSarah"></span></span>
+	<!--&nbsp;&nbsp;uptime : <span class="info_title"><%= infos.UptimeSarah %></span>-->
+	</span>
 </div>
+
+<div class="logo_sarah">
+  <a href="sarah/runstop?need=s_wakeup" class="ajax"><span class="s_play"><img src="/assets/runstop/img/portlet/s_Play.png" title="Reviens maintenant"></span></a>
+  <a href="sarah/runstop?need=s_standby" class="ajax"><span class="s_standby"><img src="/assets/runstop/img/portlet/s_Standby.png" title="Mets-toi en veille"></span></a>
+  <a href="sarah/runstop?need=s_restart" class="ajax"><span class="s_restart"><img src="/assets/runstop/img/portlet/s_Restart.png" title="Redemarre s'il te plait"></span></a>
+  <a href="sarah/runstop?need=s_stop" class="ajax"><span class="s_stop"><img src="/assets/runstop/img/portlet/s_Stop.png" title="Arrete-toi definitivement"></span></a>
+</div>
+
+<div>	
+	<span class="title_system">SYSTEM&nbsp;</span>
+</div>
+<div>	
+	<span class="info_system">
+	last boot : <span class="info_title"><%= infos.LastBootSystem %></span>
+	&nbsp;&nbsp;uptime : <span class="info_title"><span id="UptimeSystem"></span></span>
+	<!--&nbsp;&nbsp;uptime : <span class="info_title"><%= infos.UptimeSystem %></span>-->
+	</span>
+</div>
+
+<div class="logo_system">
+  <a href="sarah/runstop?need=PC_Lock" class="ajax"><span class="PC_Lock"><img src="/assets/runstop/img/portlet/PC_Lock.png" title="Verrouille la session"></span></a>
+  <a href="sarah/runstop?need=PC_LogOff" class="ajax"><span class="PC_LogOff"><img src="/assets/runstop/img/portlet/PC_LogOff.png" title="Ferme la session"></span></a>
+  <a href="sarah/runstop?need=PC_Sleep" class="ajax"><span class="PC_Sleep"><img src="/assets/runstop/img/portlet/PC_Sleep.png" title="Mets l'ordinateur en veille"></span></a>
+  <a href="sarah/runstop?need=PC_Hibernate" class="ajax"><span class="PC_Hibernate"><img src="/assets/runstop/img/portlet/PC_Hibernate.png" title="Mets l'ordinateur en hibernation"></span></a>
+  <a href="sarah/runstop?need=PC_Restart" class="ajax"><span class="PC_Restart"><img src="/assets/runstop/img/portlet/PC_Restart.png" title="Redemarre l'ordinateur"></span></a>
+  <a href="sarah/runstop?need=PC_Restart_Force" class="ajax"><span class="PC_Restart_Force"><img src="/assets/runstop/img/portlet/PC_Restart_Force.png" title="Redemarre de force l'ordinateur"></span></a>
+  <a href="sarah/runstop?need=PC_Stop" class="ajax"><span class="PC_Stop"><img src="/assets/runstop/img/portlet/PC_Stop.png" title="Arrete l'ordinateur"></span></a>
+</div>
+

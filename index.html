@@ -11,8 +11,9 @@
 </script>
 
 <p class="page-header">
-    <span class="lead">Ce module permet d'arrêter définitivement ou de redémarrer complètement SARAH.</span><br/>
-    <span class="lead">Il permet également d'utiliser les actions Arrêt/Démarrage/Redémarrage de manière autonome.</span><br/>
+    <span class="lead">Ce module permet de contrôler SARAH et le PC (Veille/Arrêt/Démarrage/Redémarrage...),</span><br/>
+    <span class="lead">par commandes vocales, icônes du portlet, ou de manière autonome.</span><br/>
+    <span class="lead">Permet également l'exécution d'actions au démarrage, et l'affichage d'information sur le portlet.</span><br/>
 </p>
 
 <div id="plugin-menu" class="row-fluid">
@@ -22,13 +23,13 @@
         <ul class="nav nav-list">
             <li class="nav-header">Configuration</li>
             <li class="#"><a href="" data-toggle="plugin-config-trayicon">Icônes de la zone de notifications</a></li>
-            <li><a href="#" data-toggle="plugin-config-inifile">Paramètrage du fichier INI</a></li>
+            <li><a href="#" data-toggle="plugin-config-inifile">Paramètrage du plugin</a></li>
             <li class="nav-header">Utilisation</li>
             <li><a href="#" data-toggle="plugin-use-commandvoice">Les commandes vocales</a></li>
             <li><a href="#" data-toggle="plugin-use-scripts">Les scripts autonomes</a></li>
             <li class="divider"></li>
             <li class="nav-header">Divers</li>
-            <li><a href="#" data-toggle="plugin-divers_avance">Explications avancées</a></li>
+            <!--<li><a href="#" data-toggle="plugin-divers_avance">Explications avancées</a></li>-->
             <li><a href="#" data-toggle="plugin-divers_problemes">Problèmes rencontrés</a></li>
             <li><a href="#" data-toggle="plugin-version-runstop">Versions</a></a></li>
         </ul>
@@ -37,7 +38,44 @@
 <!--Version-->
     <div class="span9 content">
         <ul class="unstyled" id="plugin-version-runstop">
-        		<img src="/assets/runstop/img/Restart.png" >﻿</br></br>
+        		<img src="/assets/runstop/img/RunStop_Portlet.png" >﻿</br></br>
+            <li><i class="icon-play-circle"></i><strong> Version 2.0:</strong></br>
+			[X] PORTLET :</br>
+			&nbsp;&nbsp;&nbsp;- portlet.html :</br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ajout d'icônes cliquables pour controler SARAH et le PC.</br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Affichage des informations (rafraichies toutes les minutes) de Last boot et d'Uptime de SARAH et du PC.</br>
+			&nbsp;&nbsp;&nbsp;- portlet.css : Modification du CSS.</br>
+			&nbsp;&nbsp;&nbsp;- Paramétrage direct du plugin au sein du portlet.</br>
+			[X] CRON :</br>
+			&nbsp;&nbsp;&nbsp;- Rafraichissement toutes les minutes (configurable) des informations de Last boot et d'Uptime de SARAH et du PC.</br>
+			[X] SCRIPTS :</br>
+			&nbsp;&nbsp;&nbsp;- Pause et Reprise de SARAH (repris du plugin "Veille" de Aymeric dMdV).</br>
+			&nbsp;&nbsp;&nbsp;- Nouveaux scripts de contrôle de SARAH (scripts commençant par "SARAH_") :</br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Les scripts sont maintenant indépendants (RunClient/RunServeur/RunLog2Console/RunActions/StopClient/...)</br>
+			&nbsp;&nbsp;&nbsp;- Nouveaux scripts de contrôle du PC (scripts commençant par "PC_") :</br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PC_Lock.vbs : Verrouillage de session</br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PC_LogOff.vbs : Fermeture de session</br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PC_Sleep.vbs : Veille de l'ordinateur</br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PC_Hibernate.vbs : Hibernation de l'ordinateur</br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PC_Restart.vbs : Redémarrage de l'ordinateur</br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PC_RestartForce.vbs : Redémarrage forcé de l'ordinateur</br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PC_Stop.vbs : Arrêt de l'ordinateur</br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PC_CancelStop.vbs : Annulation de l'arrêt/redémarrage de l'ordinateur</br>
+			&nbsp;&nbsp;&nbsp;- IsSpeaking_Status.vbs :Test ponctuel pour savoir si SARAH est en train de parler, méthode basée sur le retour de status de SARAH.</br>
+			&nbsp;&nbsp;&nbsp;- IsSpeaking_Log.vbs : ancien script basé sur les logs de SARAH.</br>
+			&nbsp;&nbsp;&nbsp;- UpTime.vbs : permet d'avoir le Last boot et l'Uptime de SARAH et du PC.</br>
+			&nbsp;&nbsp;&nbsp;- Tous les scripts : Refactoring complet des scripts pour une meilleure granularité.</br>
+			[X] LIBRAIRIES :</br>
+			&nbsp;&nbsp;&nbsp;- Lib_VbsJson.vbs : Lecture/écriture de données au format JSON</br>
+			&nbsp;&nbsp;&nbsp;- Lib_VbsReadIni.vbs : Lecture de données au format INI</br>
+			&nbsp;&nbsp;&nbsp;- Lib_VbsSendHTTP.vbs : Envoi de requêtes à SARAH</br>
+			[X] DIVERS :</br>
+			&nbsp;&nbsp;&nbsp;- runstop.prop :</br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Suppression de l'ancien fichier "Config_Runstop.ini", paramétrage direct au sein du portlet.</br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Changement du numéro de version (2.0)</br>
+			&nbsp;&nbsp;&nbsp;- index.html : Mise à jour de la documentation accessible par le portlet.</br>
+			</br>
+			</li>
             <li><i class="icon-play-circle"></i><strong> Version 1.2:</strong></br>
 			[X] SCRIPTS :</br>
 			&nbsp;&nbsp;&nbsp;- Run_SARAH.vbs : Possibilité d'enchaîner au démarrage de SARAH plusieurs actions à la suite : Applications à lancer, Site web à afficher, Phrases à prononcer ou Plugins à lancer.</br>
@@ -56,10 +94,12 @@
 			[X] DIVERS :</br>
 			&nbsp;&nbsp;&nbsp;- runstop.prop : changement du numéro de version (1.2)</br>
 			&nbsp;&nbsp;&nbsp;- index.html : Mise à jour de la documentation accessible par le portlet.</br></br>
+			</li>
             <li><i class="icon-play-circle"></i><strong> Version 1.1:</strong></br>
 			[X] SCRIPTS : Modification du fichier INI pour proposer les valeurs possibles selon les versions de SARAH.</br>
 			[X] AUTOIT : Légère modification du script (petit délai de 100 ms pour laisser l'apparition du menu).</br>
 			[X] DOCUMENTATION : Prise en compte des modifications.</br></br>
+			</li>
             <li><i class="icon-play-circle"></i><strong> Version 1.0:</strong></br>
 			[X] STOP SARAH : Arrêt de SARAH par commande vocale.</br>
 			[X] RESTART SARAH : Redémarrage de SARAH par commande vocale.</br>
@@ -76,8 +116,9 @@
         <!--Config TRAYICON-->
         <ul class="unstyled" id="plugin-config-trayicon" style="display: none;">
           <li><i class="icon-play-circle"></i><strong>&nbsp;Afficher constamment les icônes de la "petite maison" et de Log2Console.</strong></br></br>
+				&nbsp;&nbsp;<strong>Cet affichage n'est utile que dans le cas où le paramètre "<code>StopGracefully</code>" est à "true".</strong></br>
 				&nbsp;&nbsp;L'affichage constante des icönes permet la fermeture propre des applications Micro/Kinect et Log2Console,</br>
-				&nbsp;&nbsp;gräce au script d'automatisation Autoit nommé "Exit_TrayIcon.exe".</br></br>
+				&nbsp;&nbsp;grâce au script d'automatisation Autoit nommé "Exit_TrayIcon.exe".</br></br>
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Lancez S.A.R.A.H une première fois.</br></br>
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Lancez Log2Console (cliquez droit sur la "petite maison" et sélectionnez "Log2Console").</br></br>
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Cliquez dans la zone de notification sur la petite flèche à gauche des icönes.</br>
@@ -91,13 +132,17 @@
 			</li></br>
         </ul>
         
-        <!--Config INI FILE-->
+        <!--Config FILE-->
         <ul class="unstyled" id="plugin-config-inifile" style="display: none;">
-         <li><i class="icon-play-circle"></i> <strong>&nbsp;Paramétrer le fichier INI.</strong></br></br>
-				&nbsp;&nbsp;Le fichier <strong>"Config_RunStop.ini"</strong> se situe dans le répertoire ..\runstop\bin\</br>
-				&nbsp;&nbsp;Il contient tous les paramètres pour le démarrage ou l'arrêt de SARAH.</br></br>
-				<i class="icon-play-circle"></i> <strong>&nbsp;Section [RUN]</strong></br><br>
-				&nbsp;&nbsp;Cette section est utilisée par le script <strong>"Run_SARAH.vbs"</strong>.</br></br>
+         <li><i class="icon-play-circle"></i> <strong>&nbsp;Paramétrer le CRON.</strong></br></br>
+				&nbsp;&nbsp;Le paramétrage du CRON est accessible à partir du porlet visible dans la rubrique "C.R.O.N." de la page d'accueil.</br></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>time=* * * * *</code></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Par défaut, cette valeur permet le lancement du CRON toutes les minutes.</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Voir <a href="http://en.wikipedia.org/wiki/Cron" target="_blank">Wikipedia</a> pour plus d'infos concernant le formatage de cette valeur.</br>
+		 </li></br>
+         <li><i class="icon-play-circle"></i> <strong>&nbsp;Paramétrer le plugin.</strong></br></br>
+				&nbsp;&nbsp;Les paramètres sont accessibles depuis le portlet du plugin.</br>
+				&nbsp;&nbsp;Ils sont par défaut stockés dans "runstop.prop", puis dans "custom.prop" dès qu'ils ont été modifiés une première fois.</br></br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>UseKinect=true</code></br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Mettez à "true" si vous utilisez une Kinect.</br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Mettez à "false" si vous utilisez un microphone standard.</br></br>
@@ -105,26 +150,55 @@
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Cette option n'est utilisée que si  vous avez mis "true" à l'option "UseKinect".</br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Mettez à "true" si vous utilisez seulement la fonction Audio de la reconnaissance de la Kinect.</br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Mettez à "false" si vous utilisez la fonction Audio ET les fonctions de reconnaissance physique (gesture, face).</br></br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>MinimExe=true</code></br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Mettre à "true" minimisera dans la barre des tâches la fenêtre de type "console DOS" lors du lancement.</br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Mettre à "false" affichera de manière normale la fenêtre de type "console DOS" lors du lancement.</br></br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>HideExe=true</code></br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Mettre à "true" rendra invisible la fenêtre de type "console DOS" lors du lancement.</br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Mettre à "false" affichera la fenêtre de type "console DOS" lors du lancement (minimisée ou non selon l'option "MinimExe").</br></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>RunServer=true</code></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Mettez à "true" lancera le serveur au démarrage de SARAH.</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Si le serveur était déjà ouvert, aucune autre instance ne sera lancée.</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Mettre à "false" ne lancera pas le serveur au démarrage.</br></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>RunClient=true</code></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Mettez à "true" lancera le client au démarrage de SARAH.</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Si le client était déjà ouvert, aucune autre instance ne sera lancée.</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Mettre à "false" ne lancera pas le client au démarrage.</br></br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>RunLog2Console=true</code></br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Mettre à "true" lancera l'application "Log2Console" au démarrage de SARAH.</br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Si l'application était déjà ouverte, aucune autre instance ne sera lancée.</br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Mettre à "false" ne lancera pas l'application "Log2Console" au démarrage.</br></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>RunActions=true</code></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Mettre à "true" lancera les actions définies (voir en bas) au démarrage de SARAH.</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Mettre à "false" ne lancera pas les actions définies au démarrage.</br></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>HideServer=false</code></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Mettre à "true" rendra invisible la fenêtre de type "console DOS" (le serveur) lors du lancement.</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Mettre à "false" affichera la fenêtre de type "console DOS" lors du lancement (minimisée ou non selon l'option "MinimServer").</br></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>MinimServer=true</code></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Mettre à "true" minimisera dans la barre des tâches la fenêtre de type "console DOS" (le serveur) lors du lancement.</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Mettre à "false" affichera de manière normale la fenêtre de type "console DOS" lors du lancement.</br></br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>MinLog2Console=true</code></br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Ce paramètre ne sert que si "Log2Console" est lancé également au démarrage.</br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Mettre à "true" minimisera dans la barre des tâches la fenêtre "Log2Console" au démarrage de SARAH.</br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Mettre à "false" affichera de manière normale la fenêtre "Log2Console" au démarrage de SARAH.</br></br>
-				
-				<i class="icon-play-circle"></i> <strong>&nbsp;Section [RUN_ACTIONS]</strong></br></br>
-				&nbsp;&nbsp;Cette section est utilisée par le script <strong>"Run_SARAH.vbs"</strong> pour l'enchaînement d'actions au démarrage de SARAH.</br></br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>TimeBeforeFirstAction=7000</code></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>StopServer=true</code></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Mettez à "true" arrêtera le serveur lor de la demande de fermeture de SARAH.</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Mettre à "false" laissera le serveur ouvert lors de la fermeture de SARAH.</br></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>StopClient=true</code></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Mettez à "true" arrêtera le client lor de la demande de fermeture de SARAH.</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Mettre à "false" laissera le client ouvert lors de la fermeture de SARAH.</br></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>StopLog2Console=true</code></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Mettre à "true" pour fermer "Log2Console" en même temps que la fermeture de SARAH.</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Mettre à "false" pour laisser ouvert "Log2Console" à la fermeture de SARAH.</br></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>StopGracefully=false</code></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Veuillez consulter la rubrique d'aide "Icônes de la zone de notifications" si vous mettez ce paramètre à "true".</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Mettre à "true" pour fermer les modules de manière propre, comme si on le faisait manuellement</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;à l'aide du click droit sur les icônes de la zone de notification et en choisissant "Exit".</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Mettre à "false" pour forcer la fermeture des modules, comme si on faisait une fin de tâches</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dans le Gestionnaire des tâches de Windows.</br></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>TimeBeforeKill=10000</code></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Utilisé seulement si le paramètre "StopGracefully" est à "true".</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Temps d'attente (en ms) pour la fermeture propre des modules.</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Si le module Speech Recognition (la "petite maison") tarde à fermer, alors on tue sa tâche.</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Le temps peut varier, normalement SARAH se fermera de toute façon proprement au delà de 60 sec.</br></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>TimeBeforeFirstAction=8000</code></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Utilisé seulement si le paramètre "RunActions" est à "true".</br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Temps d'attente (en ms) avant de lancer la première action.<br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ce temps dépend des machines, en général 7000 (7 sec) devrait suffir le temps que le moteur soit initialisé.</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ce temps dépend des machines, en général 8000 (8 sec) devrait suffir le temps que le moteur soit initialisé.</br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ce temps n'est pas pris en compte si aucune action n'a été définie.</br></br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>TimeBetweenEachAction=1000</code></br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Temps d'attente (en ms) correspondant à une pause entre chaque action.</br>
@@ -133,12 +207,9 @@
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Lance de 0 à X actions à la suite : exécutables, sites web, plugins, ou phrase à prononcer.</br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Si l'action lance un plugin, il faut bien sûr penser à l'installer préalablement.</br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Si aucune action à lancer, laisser la valeur de la première vide ("RunActions_01=").</br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <u>Format de la clef (partie à gauche du "=")</u> :</br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RunActions_XX=</br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(où "XX" correspond au numéro de l'action : "01", "02", "03", ... "XX")</br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <u>Format de la valeur (partie à droite du "=")</u> :.</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <u>Format attendu :</u> :.</br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;On peut  lancer des exécutables ou sites web ("EXE:"), des plugins ("PLG:"), ou des phrases à pononcer ("SAY:").</br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXE:exécutable</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXE:chemin_de_l'exécutable</br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXE:http://site.com</br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SAY:phrase à prononcer</br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PLG:nom_du_plugin</br>
@@ -154,48 +225,72 @@
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>RunAction_04=PLG:meteo2?day=0</code></br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SARAH annonce qu'elle est maintenant disponible :</br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>RunAction_05=SAY:Je suis maintenant à votre disposition, j'attends vos ordres.</code></br></br>
-				
-				<i class="icon-play-circle"></i> <strong>&nbsp;Section [STOP]</strong></br></br>
-				&nbsp;&nbsp;Cette section est utilisée par le script <strong>"Stop_SARAH.vbs"</strong>.</br></br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>StopLog2Console=true</code></br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Mettre à "true" pour fermer "Log2Console" en même temps que la fermeture de SARAH.</br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Mettre à "false" pour laisser ouvert "Log2Console" à la fermeture de SARAH.</br></br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>StopGracefully=true</code></br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Mettre à "true" pour fermer les modules de manière propre, comme si on le faisait manuellement</br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;à l'aide du click droit sur les icônes de la zone de notification et en choisissant "Exit".</br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Mettre à "false" pour forcer la fermeture des modules, comme si on faisait une fin de tâches</br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dans le Gestionnaire des tâches de Windows.</br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- NOTA : le module "NodeJS" (la console de type DOS) est quant à lui toujours tué comme une fin de tâches.</br></br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>TimeBeforeKill=20</code></br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Temps d'attente (en sec) pour la fermeture propre des modules.</br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Si le module Speech Recognition (la "petite maison") tarde à fermer, alors on tue sa tâche.</br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Le temps peut varier, normalement SARAH se fermera de toute façon proprement au delà de 60 sec.</br></br>
-				</ul>
+		 </li></br>
+		 </ul>
 				
      <!--UTILISATION-->
      
         <!--Commandes vocales-->
         <ul class="unstyled" id="plugin-use-commandvoice" style="display: none;">
-				&nbsp;&nbsp;Ces commandes peuvent être modifiées dans le fichier <strong>"runstop.xml"</strong> du plugin.</br></br>
-            <li><i class="icon-play-circle"></i><strong> Arrêter S.A.R.A.H.</strong></li>        
+				Ces commandes peuvent être modifiées dans le fichier <strong>"runstop.xml"</strong> du plugin.</br></br>
+            <li><i class="icon-play-circle"></i><strong> Rejouer les actions définies pour le démarrage de SARAH</strong></li></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>Sarah rejoue les actions.</code></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sarah va relancer les actions définies dans les paramétrage du plugin (RunAction_01 ...).</br></br>
+            <li><i class="icon-play-circle"></i><strong> Mise en veille / reprise de SARAH</strong></li></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Intégration du plugin "Veille" existant dans le Store)</br></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>Sarah mets toi en veille.</code></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mets en veille SARAH (n'écoute aucune commande) pour un certain temps (défini en ms par "ctxTimeOut" dans le fichier custom.ini).</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Par exemple pour désactiver Sarah pendant 3h il faudra mettre 10800000</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(1000 millisecondes x 60 secondes x 60 minutes x 3 heures)..</br></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>Sarah reviens maintenant.</code></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sarah va dire "je suis de retour" et on peut de nouveau utiliser toutes les commandes vocales.</br></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>Sarah es tu là</code></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SARAH répond "oui je t'écoute" lorsqu'elle n'est pas en veille, ou sinon "je suis actuellement en veille".</br></br>
+            <li><i class="icon-play-circle"></i><strong> Arrêter / Redémarrer S.A.R.A.H.</strong></li></br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>Sarah arrête-toi définitivement.</code></br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sarah prononce une phrase de fin ("Au revoir") et s'arrête :</br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tous les modules sont fermés, selon le paramétrage du fichier INI</br></br>
-            <li><i class="icon-play-circle"></i><strong> Redémarrer S.A.R.A.H.</strong></li>           
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tous les modules sont fermés, selon le paramétrage du plugin</br></br>      
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>Sarah redémarre s'il te plait.</code></br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sarah prononce une phrase de fin ("Je redémarre") et s'arrête comme ci-dessus,</br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;puis elle redémarre tous ses modules, comme paramétré dans le fichier INI</br></br> 
-            <li><i class="icon-play-circle"></i><strong> Démarrer S.A.R.A.H tout court</strong></li>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ce n'est évidemment pas possible à partir d'une commande vocale.</br> 
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;puis elle redémarre tous ses modules, comme paramétré dans le plugin</br></br> 
+            <li><i class="icon-play-circle"></i><strong> Actions sur l'ordinateur</strong></li></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Les commandes parlents d'elles-même ...</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>Sarah verrouille la session.</code></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>Sarah ferme la session.</code></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>Sarah mets l'ordinateur en veille.</code></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>Sarah mets l'ordinateur en hibernation.</code></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>Sarah arrête l'ordinateur.</code></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>Sarah redémarre l'ordinateur.</code></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>Sarah redémarre de force l'ordinateur.</code></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>Sarah annule l'arrêt de l'ordinateur.</code></br></br>
         </ul>
         
         <!--Scripts autonomes-->
         <ul class="unstyled" id="plugin-use-scripts" style="display: none;">
-				&nbsp;&nbsp;Trois scripts existent.</br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <strong>"Run_SARAH.vbs"</strong> : Démarre S.A.R.A.H. de A à Z.</br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <strong>"Stop_SARAH.vbs"</strong> : Arrête S.AR.A.H. en fermant tous ses modules.</br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <strong>"Restart_SARAH.vbs"</strong> : Redémarre S.AR.A.H. en l'arrêtant pius la démarrant.</br></br>
-				&nbsp;&nbsp;Ils peuvent être utilisés de manière totalement indépendante de SARAH :</br></br>
+				Trois scripts principaux pour SARAH existent :</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <strong>"SARAH_Run.vbs"</strong> : Démarre S.A.R.A.H. de A à Z.</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <strong>"SARAH_Stop.vbs"</strong> : Arrête S.AR.A.H. en fermant tous ses modules.</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <strong>"SARAH_Restart.vbs"</strong> : Redémarre S.AR.A.H. en l'arrêtant puis la démarrant.</br></br>
+				Les scripts secondaires pour SARAH :</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Il sont appelés par les 3 scripts principaux).</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <strong>"SARAH_RunServer.vbs"</strong> : Démarre le serveur seul.</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <strong>"SARAH_RunClient.vbs"</strong> : Démarre le client seul.</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <strong>"SARAH_RunLog2Console.vbs"</strong> : Démarre Log2Console seul.</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <strong>"SARAH_RunActions.vbs"</strong> : Lance les actions définies seulement.</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <strong>"SARAH_StopServer.vbs"</strong> : Arrête le serveur seul.</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <strong>"SARAH_StopClient.vbs"</strong> : Arrête le client seul.</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <strong>"SARAH_StopLog2Console.vbs"</strong> : Arrête Log2Console seul</br></br>
+				Les autres scripts secondaires, concernant le PC :</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <strong>"PC_Lock.vbs"</strong> : Verrouille la session.</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <strong>"PC_LogOff.vbs"</strong> : Ferme la sessionn.</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <strong>"PC_Sleep.vbs"</strong> : Mets l'ordinateur en veille.</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <strong>"PC_Hibernate.vbs"</strong> : Mets l'ordinateur en hibernation.</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <strong>"PC_Stop.vbs"</strong> : Arrête l'ordinateur.</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <strong>"PC_Restart.vbs"</strong> : Redémarre l'ordinateur.</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <strong>"PC_RestartForce.vbs"</strong> : Redémarre de force l'ordinateur.</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <strong>"PC_CancelStop.vbs"</strong> : Annule l'arrêt de l'ordinateur.</br></br></br>
+				Les scripts sont appelés soit par commande vocale, soit par l'interface du portlet (icônes cliquables).</br>
+				Ils peuvent également être utilisés de manière totalement indépendante de SARAH :</br></br>
             <li><i class="icon-play-circle"></i><strong> Par accès direct</strong></li></br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Il suffit de double-cliquer sur chacun d'entre eux.</br></br> 
             <li><i class="icon-play-circle"></i><strong> En tant que raccourcis d'un module de l'interface Rainmeter</strong></li></br>
@@ -220,8 +315,9 @@
      <!--DIVERS-->
         
        <!--Explications avancées -->
+	   <!--
         <ul class="unstyled" id="plugin-divers_avance" style="display: none;">
-            <li><i class="icon-play-circle"></i><strong> Algorithme de "Run_SARAH.vbs"</strong></br></br>
+            <li><i class="icon-play-circle"></i><strong> Algorithme de "OLD_Run_SARAH.vbs"</strong></br></br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Lecture des paramètres du fichier INI (sections [RUN] et [RUN_ACTIONS]).</br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Détection de la version de SARAH pour savoir quels modules lancer.</br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Si Log2Console doit être démarré aussi :</br>
@@ -240,7 +336,7 @@
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Répéter en boucle les actions précédentes après une pause définie.</br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Fin du script</br></br> 
  			</li>
-            <li><i class="icon-play-circle"></i><strong> Algorithme de "Stop_SARAH.vbs"</strong></br></br>
+            <li><i class="icon-play-circle"></i><strong> Algorithme de "OLD_Stop_SARAH.vbs"</strong></br></br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Lecture des paramètres du fichier INI.</br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Détection de la version de SARAH pour savoir quels modules arrêter.</br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Parcours des process système.</br>
@@ -255,12 +351,12 @@
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Rafraîchissement de la zone de notifications (System Tray) pour éliminer les éventuelles icônes fantômes.</br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Fin du script</br></br> 
  			</li>
-            <li><i class="icon-play-circle"></i><strong> Algorithme de "Restart_SARAH.vbs"</strong></br></br>
+            <li><i class="icon-play-circle"></i><strong> Algorithme de "OLD_Restart_SARAH.vbs"</strong></br></br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Lancement du script "Stop_SARAH.vbs" avec attente de sa fin.</br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Lancement du script "Run_SARAH.vbs".</br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Fin du script</br></br> 
  			</li>
-            <li><i class="icon-play-circle"></i><strong> Algorithme de "IsSpeaking.vbs"</strong></br></br>
+            <li><i class="icon-play-circle"></i><strong> Algorithme de "IsSpeaking_Log.vbs"</strong></br></br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Détermination du nom du fichier de log en fonction de la date du jour.</br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Si le fichier existe.</br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Ouverture du fichier et parcours de toutes ses lignes.</br>
@@ -300,7 +396,7 @@
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Cependant, si vous voulez installer Autoit, allez <a href="http://www.autoitscript.com/site/" target="_blank">sur ce site</a> et téléchargez-le.</br>
  			</li>
         </ul>
-			
+		-->
         
        <!--Problèmes rencontrés -->
         <ul class="unstyled" id="plugin-divers_problemes" style="display: none;">
@@ -314,7 +410,7 @@
  			</li>
             <li><i class="icon-play-circle"></i><strong> Erreur :	Impossible d’établir une connexion avec le serveur</strong></br></br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Peut se produire si la première action ("RunAction_01=XXXXXX") est envoyée trop tôt au serveur HTTP.</br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- => Augmenter le temps dans le fichier "Config_RunStop.ini" : <code>TimeBeforeFirstAction=</code></br></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- => Augmenter le temps dans le paramétrage du plugin : <code>TimeBeforeFirstAction</code></br></br>
  			</li>
  			
         </ul>

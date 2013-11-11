@@ -7,7 +7,9 @@
 '--------------------------------------
 
 Dim WshShell, objWMIService, objFSO, colProcesses, objProcess, objPro
-Dim sScriptPath, sRootPath, sCmdLineNode, sCmdLineKinect, sCmdLineMacro, sCmdLineConhost, sCmdLineLog2Console, sAutoItExit, sAutoItRefresh
+Dim cJson, objProp
+Dim sRunStopProp
+Dim sScriptPath, sPluginPath, sRootPath, sCmdLineNode, sCmdLineKinect, sCmdLineMacro, sCmdLineConhost, sCmdLineLog2Console, sAutoItExit, sAutoItRefresh
 Dim sExitTrayIcon_Speech, sExitTrayIcon_Console
 Dim bStopConsole, bStopGracefully
 Dim iReturnValue, iTimeBeforeKill
@@ -22,9 +24,14 @@ Set objFSO = CreateObject( "Scripting.FileSystemObject" )
 
 iReturnValue = -1
 sScriptPath = Replace(WScript.ScriptFullName, WScript.ScriptName, "")
-sRootPath    = Replace(sScriptPath, "plugins\runstop\bin\", "")
-sAutoItExit           = "Exit_TrayIcon.exe"
-sAutoItRefresh        = "Refresh_SystemTray.exe"
+sPluginPath = Replace(sScriptPath, "bin\", "")
+sRootPath   = Replace(sScriptPath, "plugins\runstop\bin\", "")
+
+includeFile sScriptPath & "Lib_VbsReadIni.vbs"
+includeFile sScriptPath & "Lib_VbsJson.vbs"
+
+sAutoItExit           = "SystemTray_Exit.exe"
+sAutoItRefresh        = "SystemTray_Refresh.exe"
 sExitTrayIcon_Speech  = sAutoItExit & " /Speech"
 sExitTrayIcon_Console = sAutoItExit & " /Console"
 sCmdLineLog2Console   = "Log2Console.exe"
@@ -38,22 +45,31 @@ If objFSO.FileExists(sRootPath & "WSRNode.cmd") Then
 	
 ElseIf objFSO.FileExists(sRootPath & "Server_NodeJS.cmd") Then
 	
-	' SARAH Version >= 3 beta 1
+	' SARAH Version >= 3 beta 1 (including 3RC1, 3RC2, 3.0 ...)
 	sCmdLineNode        = "Server_NodeJS.cmd"
 	sCmdLineMicro       = "WSRMacro.exe"
 	sCmdLineKinect      = "WSRMacro_Kinect.exe"
 	
 Else
-	MsgBox "Impossible de détecter la version de SARAH."
+	Wscript.Echo "Impossible de détecter la version de SARAH."
 	WScript.Quit(iReturnValue)
 End If
 
 
 '-- Read ini file values
 
-bStopConsole        = CBool(ReadIni(sScriptPath & "Config_RunStop.ini", "STOP", "StopLog2Console"))
-bStopGracefully     = CBool(ReadIni(sScriptPath & "Config_RunStop.ini", "STOP", "StopGracefully"))
-iTimeBeforeKill     = CInt(ReadIni(sScriptPath & "Config_RunStop.ini", "STOP", "TimeBeforeKill"))
+'bStopConsole        = CBool(ReadIni(sScriptPath & "Config_RunStop.ini", "STOP", "StopLog2Console"))
+'bStopGracefully     = CBool(ReadIni(sScriptPath & "Config_RunStop.ini", "STOP", "StopGracefully"))
+'iTimeBeforeKill     = CInt(ReadIni(sScriptPath & "Config_RunStop.ini", "STOP", "TimeBeforeKill"))
+
+Set cJson = New VbsJson
+sRunStopProp = objFSO.OpenTextFile(sPluginPath & "runstop.prop").ReadAll
+Set objProp = cJson.Decode(sRunStopProp)
+bStopConsole        = CBool(objProp("modules")("runstop")("StopLog2Console"))
+bStopGracefully     = CBool(objProp("modules")("runstop")("StopGracefully"))
+iTimeBeforeKill     = CInt(objProp("modules")("runstop")("TimeBeforeKill"))
+
+iTimeBeforeKill = Round(iTimeBeforeKill / 1000,0)
 if iTimeBeforeKill > 1000 then iTimeBeforeKill = 60
 
 
@@ -171,6 +187,8 @@ Return = WshShell.Run(sScriptPath & sAutoItRefresh, 1, true)
 
 '--  Destroy objects
 
+Set objProp = nothing
+Set cJson = nothing
 Set colProcesses = nothing
 Set objWMIService = nothing
 Set WshShell = nothing
@@ -180,86 +198,13 @@ Set objFSO = nothing
 WScript.Quit(iReturnValue)
 
 
+
 '--------------------------------------
-' READ THE INI FILE
+' INCLUDE OTHER VBS LIBRARIES
 '--------------------------------------
 
-Function ReadIni( myFilePath, mySection, myKey )
-    ' This function returns a value read from an INI file
-    '
-    ' Arguments:
-    ' myFilePath  [string]  the (path and) file name of the INI file
-    ' mySection   [string]  the section in the INI file to be searched
-    ' myKey       [string]  the key whose value is to be returned
-    '
-    ' Returns:
-    ' the [string] value for the specified key in the specified section
-    '
-    ' CAVEAT:     Will return a space if key exists but value is blank
-    '
-    ' Written by Keith Lacelle
-    ' Modified by Denis St-Pierre and Rob van der Woude
-
-    Const ForReading   = 1
-    Const ForWriting   = 2
-    Const ForAppending = 8
-
-    Dim intEqualPos
-    Dim objFSO, objIniFile
-    Dim strFilePath, strKey, strLeftString, strLine, strSection
-
-    Set objFSO = CreateObject( "Scripting.FileSystemObject" )
-
-    ReadIni     = ""
-    strFilePath = Trim( myFilePath )
-    strSection  = Trim( mySection )
-    strKey      = Trim( myKey )
-
-    If objFSO.FileExists( strFilePath ) Then
-        Set objIniFile = objFSO.OpenTextFile( strFilePath, ForReading, False )
-        Do While objIniFile.AtEndOfStream = False
-            strLine = Trim( objIniFile.ReadLine )
-
-            ' Check if section is found in the current line
-            If LCase( strLine ) = "[" & LCase( strSection ) & "]" Then
-                strLine = Trim( objIniFile.ReadLine )
-
-                ' Parse lines until the next section is reached
-                Do While Left( strLine, 1 ) <> "["
-                    If Left( strLine, 1) <> ";" then
-                        ' Find position of equal sign in the line
-                        intEqualPos = InStr( 1, strLine, "=", 1 )
-                        If intEqualPos > 0 Then
-                            strLeftString = Trim( Left( strLine, intEqualPos - 1 ) )
-                            ' Check if item is found in the current line
-                            If LCase( strLeftString ) = LCase( strKey ) Then
-                                ReadIni = Trim( Mid( strLine, intEqualPos + 1 ) )
-                                ' In case the item exists but value is blank
-                                If ReadIni = "" Then
-                                    ReadIni = " "
-                                End If
-                                ' Abort loop when item is found
-                                Exit Do
-                            End If
-                        End If
-                    End If
-
-                    ' Abort if the end of the INI file is reached
-                    If objIniFile.AtEndOfStream Then Exit Do
-
-                    ' Continue with next line
-                    strLine = Trim( objIniFile.ReadLine )
-                Loop
-            Exit Do
-            End If
-        Loop
-        objIniFile.Close
-    Else
-        WScript.Echo strFilePath & " doesn't exists. Exiting..."
-        Wscript.Quit 1
-    End If
-
-    Set objIniFile = nothing
-    Set objFSO = nothing
-
-End Function
+Sub includeFile(fSpec)
+    With CreateObject("Scripting.FileSystemObject")
+       executeGlobal .openTextFile(fSpec).readAll()
+    End With
+End Sub

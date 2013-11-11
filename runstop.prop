@@ -1,8 +1,43 @@
-{
-  "modules" : { 
-    "runstop"  : {
-      "description": "Arrete definitivement ou redemarre completement S.A.R.A.H",
-      "version"    : "1.2"
+{  
+  "cron" : {
+    "runstop" : {
+      "name"        : "runstop",
+      "description" : "Permet de rafraichir les informations du portlet pour le plugin RunStop.",
+      "version"     : "2.0",
+      "y"           : "3",
+      "time"        : "* * * * *"
+    }
+  },
+  
+  "modules" : {
+    "runstop" : {
+      "description" : "Centre de controle de S.A.R.A.H et du PC (Arret, (Re)démarrage, Veille, Actions ...)",
+      "version"     : "2.0",
+      "w"           : "2",
+      "UseKinect"             : "true",
+      "UseKinectAudio"        : "false",
+      "RunServer"             : "true",
+      "RunClient"             : "true",
+      "RunLog2Console"        : "true",
+      "RunActions"            : "true",
+      "HideServer"            : "false",
+      "MinimServer"           : "true",
+      "MinimLog2Console"      : "true",
+      "StopServer"            : "true",
+      "StopClient"            : "true",
+      "StopLog2Console"       : "true",
+      "StopGracefully"        : "false",
+      "TimeBeforeKill"        : "10000",
+      "TimeBeforeFirstAction" : "8000",
+      "TimeBetweenEachAction" : "1000",
+      "RunAction_01"          : "SAY:Bonjour !",
+      "RunAction_02"          : "",
+      "RunAction_03"          : "",
+      "RunAction_04"          : "",
+      "RunAction_05"          : "",
+      "RunAction_06"          : "",
+      "RunAction_07"          : "",
+      "RunAction_08"          : ""
     }
   }
 }

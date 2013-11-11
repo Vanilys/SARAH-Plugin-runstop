@@ -1,0 +1,18 @@
+<grammar version="1.0" xml:lang="fr-FR" mode="voice" root="ruleLazyRunstop" xmlns="http://www.w3.org/2001/06/grammar" tag-format="semantics/1.0">
+  <rule id="ruleLazyRunstop" scope="public">
+    <tag>out.action=new Object();</tag>
+
+    <item>Sarah</item>
+    <one-of>
+      <item>es tu la
+		<tag>out.action._attributes.tts = "Je suis actuellement en veille."</tag>
+		<tag>out.action.need="s_status_off"</tag>
+	  </item>
+      <item>mets toi en veille<tag>out.action._attributes.tts = "Je suis actuellement en veille."</tag></item>
+	  <item>reviens maintenant<tag>out.action.need="s_wakeup"</tag></item>
+    </one-of>
+	
+	<tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/runstop";</tag>
+    
+  </rule> 
+</grammar>

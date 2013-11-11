@@ -1,15 +1,39 @@
-<grammar version="1.0" xml:lang="fr-FR" mode="voice" root="rulerunstop" xmlns="http://www.w3.org/2001/06/grammar" tag-format="semantics/1.0">
-  <rule id="rulerunstop" scope="public">
-    <example>Sarah arrête toi définitivement</example>
-    <example>Sarah redémarre s'ilt te plait</example>
+<grammar version="1.0" xml:lang="fr-FR" mode="voice" root="ruleRunstop" xmlns="http://www.w3.org/2001/06/grammar" tag-format="semantics/1.0">
+  <rule id="ruleRunstop" scope="public">
+    <example>Sarah arrÃªte toi dÃ©finitivement</example>
+    <example>Sarah redÃ©marre s'ilt te plait</example>
+    <example>Sarah redÃ©marre l'ordinateur</example>
+    <example>Sarah mets toi en veille</example>
+    <example>Sarah reviens maintenant</example>
     
-    <tag>out.action=new Object(); </tag>    
+    <tag>out.action=new Object(); </tag>
+
     <item>Sarah</item>
     <one-of>
-      <item>arrète toi définitivement<tag>out.action.need="stop"</tag></item>
-      <item>redémarre s'il te plait<tag>out.action.need="restart"</tag></item>
+      <item>rejoue les actions<tag>out.action.need="s_actions"</tag></item>
+	  
+      <item>arrÃªte toi dÃ©finitivement<tag>out.action.need="s_stop"</tag></item>
+      <item>redÃ©marre s'il te plait<tag>out.action.need="s_restart"</tag></item>
+	  
+      <item>verrouille la session<tag>out.action.need="pc_lock"</tag></item>
+      <item>ferme la session<tag>out.action.need="pc_logoff"</tag></item>
+	  
+      <item>mets l'ordinateur en veille<tag>out.action.need="pc_sleep"</tag></item>
+      <item>mets l'ordinateur en hibernation<tag>out.action.need="pc_hibernate"</tag></item>
+      <item>arrÃªte l'ordinateur<tag>out.action.need="pc_stop"</tag></item>
+      <item>redÃ©marre l'ordinateur<tag>out.action.need="pc_restart"</tag></item>
+      <item>redÃ©marre de force l'ordinateur<tag>out.action.need="pc_restart_force"</tag></item>
+      <item>annule l'arrÃªt de l'ordinateur<tag>out.action.need="pc_cancelstop"</tag></item>
+      
+      <item>es tu la
+		<tag>out.action._attributes.tts = "oui, je taicoute."</tag>
+		<tag>out.action.need="s_status_on"</tag>
+	  </item>
+      <item>reviens maintenant<tag>out.action._attributes.tts = "Je suis daija la."</tag></item>
+	  <item>mets toi en veille<tag>out.action.need="s_standby"</tag></item>
     </one-of>
-	
-<tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/runstop";</tag>
+    
+		<tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/runstop";</tag>
   </rule>
+  
 </grammar>

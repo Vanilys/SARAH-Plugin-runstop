@@ -1,5 +1,6 @@
 '====================================
 ' SCRIPT TO KNOW IF SARAH IS SPEAKING
+' BASED ON LOG FILES
 '====================================
 
 ' RETURN VALUES :

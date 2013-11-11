@@ -7,7 +7,9 @@
 '--------------------------------------
 
 Dim WshShell, objWMIService, objFSO, colProcesses, objProcess
-Dim sScriptPath, sRootPath, sConsolePath, sIsSpeakingLoop
+Dim cJson, objProp
+Dim sRunStopProp
+Dim sScriptPath, sPluginPath, sRootPath, sConsolePath, sIsSpeakingLoop
 Dim sNodeJS, sKinect, sMicro, sLog2Console, sClient
 Dim sCmdLineNode, sCmdLineKinect, sCmdLineMicro, sCmdLineConhost, sCmdLineLog2Console, sCmdLineClient
 Dim iWindowState, iTimeBeforeFirstAction, iTimeBetweenEachAction
@@ -16,10 +18,10 @@ Dim sURL, sToSend
 Dim iReturnValue, IsSpeaking, iAction
 Dim sActions, sCurrAction, sActionNum, sActionURL
 Dim aActions
-Dim bIsPlugin, bIsSentence, bIsExe
+Dim bIsPlugin, bIsSentence, bIsExe, bIsEmulation
 Dim TimeBegin
 
-Const DEF_TIMELOOP = 100
+Const DEF_TIMELOOP = 200
 Const DEF_TIMEOUT = 30000
 
 '-- Initialize parameters
@@ -30,10 +32,16 @@ Set objFSO = CreateObject( "Scripting.FileSystemObject" )
 
 iReturnValue = -1
 sScriptPath  = Replace(WScript.ScriptFullName, WScript.ScriptName, "")
+sPluginPath  = Replace(sScriptPath, "bin\", "")
 sRootPath    = Replace(sScriptPath, "plugins\runstop\bin\", "")
+
+includeFile sScriptPath & "Lib_VbsReadIni.vbs"
+includeFile sScriptPath & "Lib_VbsJson.vbs"
+includeFile sScriptPath & "Lib_VbsSendHTTP.vbs"
+
 sConsolePath = sRootPath & "Log2Console\"
 sIsSpeakingLoop     = "IsSpeaking_LoopTest.vbs"
-sAutoItRefresh      = "Refresh_SystemTray.exe"
+sAutoItRefresh      = "SystemTray_Refresh.exe"
 sLog2Console        = "Log2Console.exe"
 sCmdLineLog2Console = "Log2Console.exe"
 
@@ -50,7 +58,7 @@ If objFSO.FileExists(sRootPath & "WSRNode.cmd") Then
 	
 ElseIf objFSO.FileExists(sRootPath & "Server_NodeJS.cmd") Then
 	
-	' SARAH Version >= 3 beta 1
+	' SARAH Version >= 3 beta 1 (including 3RC1, 3RC2, 3.0 ...)
 	sNodeJS           = "Server_NodeJS.cmd"
 	sMicro            = "Client_Microphone.cmd"
 	sKinect           = "Client_Kinect.cmd"
@@ -60,21 +68,34 @@ ElseIf objFSO.FileExists(sRootPath & "Server_NodeJS.cmd") Then
 	sCmdLineKinect    = "WSRMacro_Kinect.exe"
 	
 Else
-	MsgBNox "Impossible de détecter la version de SARAH."
+	Wscript.Echo "Impossible de détecter la version de SARAH."
 	WScript.Quit(iReturnValue)
 End If
 
 
 '-- Read ini file values
 
-bUseKinect             = CBool(ReadIni(sScriptPath & "Config_RunStop.ini", "RUN", "UseKinect"))
-bUseKinectAudio        = CBool(ReadIni(sScriptPath & "Config_RunStop.ini", "RUN", "UseKinectAudio"))
-bMinExe                = CBool(ReadIni(sScriptPath & "Config_RunStop.ini", "RUN", "MinimExe"))
-bHideExe               = CBool(ReadIni(sScriptPath & "Config_RunStop.ini", "RUN", "HideExe"))
-bRunConsole            = CBool(ReadIni(sScriptPath & "Config_RunStop.ini", "RUN", "RunLog2Console"))
-bMinConsole            = CBool(ReadIni(sScriptPath & "Config_RunStop.ini", "RUN", "MinimLog2Console"))
-iTimeBeforeFirstAction = CInt(ReadIni(sScriptPath & "Config_RunStop.ini", "RUN_ACTIONS", "TimeBeforeFirstAction"))
-iTimeBetweenEachAction = CInt(ReadIni(sScriptPath & "Config_RunStop.ini", "RUN_ACTIONS", "TimeBetweenEachAction"))
+'bUseKinect             = CBool(ReadIni(sScriptPath & "Config_RunStop.ini", "RUN", "UseKinect"))
+'bUseKinectAudio        = CBool(ReadIni(sScriptPath & "Config_RunStop.ini", "RUN", "UseKinectAudio"))
+'bMinExe                = CBool(ReadIni(sScriptPath & "Config_RunStop.ini", "RUN", "MinimExe"))
+'bHideExe               = CBool(ReadIni(sScriptPath & "Config_RunStop.ini", "RUN", "HideExe"))
+'bRunConsole            = CBool(ReadIni(sScriptPath & "Config_RunStop.ini", "RUN", "RunLog2Console"))
+'bMinConsole            = CBool(ReadIni(sScriptPath & "Config_RunStop.ini", "RUN", "MinimLog2Console"))
+'iTimeBeforeFirstAction = CInt(ReadIni(sScriptPath & "Config_RunStop.ini", "RUN_ACTIONS", "TimeBeforeFirstAction"))
+'iTimeBetweenEachAction = CInt(ReadIni(sScriptPath & "Config_RunStop.ini", "RUN_ACTIONS", "TimeBetweenEachAction"))
+
+Set cJson = New VbsJson
+sRunStopProp = objFSO.OpenTextFile(sPluginPath & "runstop.prop").ReadAll
+Set objProp = cJson.Decode(sRunStopProp)
+bUseKinect             = CBool(objProp("modules")("runstop")("UseKinect"))
+bUseKinectAudio        = CBool(objProp("modules")("runstop")("UseKinectAudio"))
+bMinExe                = CBool(objProp("modules")("runstop")("MinimServer"))
+bHideExe               = CBool(objProp("modules")("runstop")("HideServer"))
+bRunConsole            = CBool(objProp("modules")("runstop")("RunLog2Console"))
+bMinConsole            = CBool(objProp("modules")("runstop")("MinimLog2Console"))
+iTimeBeforeFirstAction = CInt(objProp("modules")("runstop")("TimeBeforeFirstAction"))
+iTimeBetweenEachAction = CInt(objProp("modules")("runstop")("TimeBetweenEachAction"))
+
 
 if bUseKinect  = true then
 	if bUseKinectAudio = true then
@@ -92,11 +113,13 @@ end if
 iAction = 1
 Do	
 	sActionNum = RightPad(CStr(iAction), 2, "0")
-	sCurrAction = ReadIni(sScriptPath & "Config_RunStop.ini", "RUN_ACTIONS", "RunAction_" & sActionNum) 	
+	'sCurrAction = ReadIni(sScriptPath & "Config_RunStop.ini", "RUN_ACTIONS", "RunAction_" & sActionNum) 	
+	sCurrAction = objProp("modules")("runstop")("RunAction_" & sActionNum) 	
 	sActions = sActions & sCurrAction & ";"
 	iAction = iAction + 1
 Loop Until sCurrAction=""
 sActions = Trim(Left(sActions, Len(sActions)-2))
+
 
 '-- Run the Log2Console application (or not)
 
@@ -171,7 +194,7 @@ if bClientIsRunning = false then
 end if
 
 
-'-- Run the acioons : Launch some executables, some plugins or say vocal messages
+'-- Run the actions : Launch some executables, some plugins or say vocal messages
 
 if sActions <> "" then
 	
@@ -185,30 +208,41 @@ if sActions <> "" then
 			bIsSentence = true
 			bIsPlugin = false
 			bIsExe = false
+			bIsEmulation = false
 		elseif UCase(Left(sActionURL, 4)) = "PLG:" then
 			bIsSentence = false
 			bIsPlugin = true
 			bIsExe = false
+			bIsEmulation = false
 		elseif UCase(Left(sActionURL, 4)) = "EXE:" then
 			bIsSentence = false
 			bIsPlugin = false
 			bIsExe = true
+			bIsEmulation = false
+		elseif UCase(Left(sActionURL, 4)) = "EMU:" then
+			bIsSentence = false
+			bIsPlugin = false
+			bIsExe = false
+			bIsEmulation = true
 		else
 			bIsSentence = false
 			bIsPlugin = false
 			bIsExe = false
+			bIsEmulation = false
 		end if
+		
+		Return = ""
 		
 		if bIsExe = true then
 			' Launch the executable, or web site
 			sActionURL = Right(sActionURL, Len(sActionURL) - 4)
 			iReturnValue = WshShell.Run(sActionURL, 1, false)			
 		else
-			if (bIsSentence = true) or (bIsPlugin = true) then
+			if (bIsSentence = true) or (bIsPlugin = true) or (bIsEmulation = true) then
 				sActionURL = Right(sActionURL, Len(sActionURL) - 4)
 			
 			 ' Wait for 100ms that the Logs have been correctly written
-				WScript.sleep 100
+				'WScript.sleep 100
 				
 				' Wait until SARAH is NOT speaking before launching the current Plugin
 				WshShell.CurrentDirectory = sScriptPath
@@ -218,7 +252,7 @@ if sActions <> "" then
 				WScript.sleep iTimeBetweenEachAction
 			end if
 	
-			if (bIsPlugin = true) and (bIsSentence = false) then
+			if (bIsPlugin = true) then
 				WshShell.CurrentDirectory = sRootPath
 				' http://127.0.0.1:8080/sarah/pluginname?action=value
 				sURL = "http://" & _
@@ -230,12 +264,21 @@ if sActions <> "" then
 				Return = sActionURL
 			end if
 	
-			if (bIsSentence = true) or (bIsPlugin = true) then
+			if (bIsPlugin = true) or (bIsSentence = true) then
 				' http://127.0.0.1:8888/?tts=XXXXXXXXXX
 				sURL = "http://" & _
 				       ReadIni(sRootPath & "custom.ini", "nodejs", "server") & ":" & _
 				       ReadIni(sRootPath & "custom.ini", "common", "loopback") & "/?tts="
 				sToSend = sURL & Return
+				Return = SendHTTP(sToSend)
+			end if
+			
+			if (bIsEmulation = true) then
+				' http://127.0.0.1:8888/?emulate=XXXXXXXXXX
+				sURL = "http://" & _
+				       ReadIni(sRootPath & "custom.ini", "nodejs", "server") & ":" & _
+				       ReadIni(sRootPath & "custom.ini", "common", "loopback") & "/?emulate="
+				sToSend = sURL & sActionURL
 				Return = SendHTTP(sToSend)
 			end if
 			
@@ -247,6 +290,8 @@ end if
 
 '-- Destroy objects
 
+Set objProp = nothing
+Set cJson = nothing
 Set objWMIService = nothing
 Set WshShell = nothing
 Set objFSO = nothing
@@ -254,124 +299,6 @@ Set objFSO = nothing
 
 iReturnValue = 0
 WScript.Quit(iReturnValue)
-
-
-
-'--------------------------------------
-' SEND URL TO HTTP SERVER
-'--------------------------------------
-
-Function SendHTTP(sRequest)
-
-	Set xmlHttp = WScript.CreateObject("MSXML2.ServerXMLHTTP")
-
-	xmlHttp.Open "GET", sRequest, False
-	xmlHttp.Send ""
-	getHTML = xmlHttp.responseText
-	status = xmlHttp.status
-	xmlHttp.Abort
-
-	Set xmlHttp = Nothing
-	
-	If status = 200 Then
-		If Len(getHTML) > 0 Then
-			SendHTTP = getHTML
-		else 
-			SendHTTP = "Erreur serveur, retour vide"
-		End If
-	else
-			SendHTTP = "Erreur serveur, status " & status
-	End If
-
-
-End Function
-
-
-
-'--------------------------------------
-' READ THE INI FILE
-'--------------------------------------
-
-Function ReadIni( myFilePath, mySection, myKey )
-    ' This function returns a value read from an INI file
-    '
-    ' Arguments:
-    ' myFilePath  [string]  the (path and) file name of the INI file
-    ' mySection   [string]  the section in the INI file to be searched
-    ' myKey       [string]  the key whose value is to be returned
-    '
-    ' Returns:
-    ' the [string] value for the specified key in the specified section
-    '
-    ' CAVEAT:     Will return a space if key exists but value is blank
-    '
-    ' Written by Keith Lacelle
-    ' Modified by Denis St-Pierre and Rob van der Woude
-
-    Const ForReading   = 1
-    Const ForWriting   = 2
-    Const ForAppending = 8
-
-    Dim intEqualPos
-    Dim objFSO, objIniFile
-    Dim strFilePath, strKey, strLeftString, strLine, strSection
-
-    Set objFSO = CreateObject( "Scripting.FileSystemObject" )
-
-    ReadIni     = ""
-    strFilePath = Trim( myFilePath )
-    strSection  = Trim( mySection )
-    strKey      = Trim( myKey )
-
-    If objFSO.FileExists( strFilePath ) Then
-        Set objIniFile = objFSO.OpenTextFile( strFilePath, ForReading, False )
-        Do While objIniFile.AtEndOfStream = False
-            strLine = Trim( objIniFile.ReadLine )
-
-            ' Check if section is found in the current line
-            If LCase( strLine ) = "[" & LCase( strSection ) & "]" Then
-                strLine = Trim( objIniFile.ReadLine )
-
-                ' Parse lines until the next section is reached
-                Do While Left( strLine, 1 ) <> "["
-                    If Left( strLine, 1) <> ";" then
-                        ' Find position of equal sign in the line
-                        intEqualPos = InStr( 1, strLine, "=", 1 )
-                        If intEqualPos > 0 Then
-                            strLeftString = Trim( Left( strLine, intEqualPos - 1 ) )
-                            ' Check if item is found in the current line
-                            If LCase( strLeftString ) = LCase( strKey ) Then
-                                ReadIni = Trim( Mid( strLine, intEqualPos + 1 ) )
-                                ' In case the item exists but value is blank
-                                If ReadIni = "" Then
-                                    ReadIni = " "
-                                End If
-                                ' Abort loop when item is found
-                                Exit Do
-                            End If
-                        End If
-                    End If
-
-                    ' Abort if the end of the INI file is reached
-                    If objIniFile.AtEndOfStream Then Exit Do
-
-                    ' Continue with next line
-                    strLine = Trim( objIniFile.ReadLine )
-                Loop
-            Exit Do
-            End If
-        Loop
-        objIniFile.Close
-    Else
-        WScript.Echo strFilePath & " doesn't exists. Exiting..."
-        Wscript.Quit 1
-    End If
-
-    Set objIniFile = nothing
-    Set objFSO = nothing
-
-End Function
-
 
 
 
@@ -395,3 +322,14 @@ Function RightPad(sText, iLen, chrPad )
     'RightPad( "1234", 3, "x" ) = "234"
     RightPad = Right(String(iLen, chrPad) & sText, iLen)
 End Function
+
+
+'--------------------------------------
+' INCLUDE OTHER VBS LIBRARIES
+'--------------------------------------
+
+Sub includeFile(fSpec)
+    With CreateObject("Scripting.FileSystemObject")
+       executeGlobal .openTextFile(fSpec).readAll()
+    End With
+End Sub
