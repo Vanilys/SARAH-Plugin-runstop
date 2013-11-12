@@ -22,11 +22,14 @@
     <div class="stretch col-md-3 well plugin-nav">
         <ul class="nav nav-list">
             <li class="nav-header">Configuration</li>
+            <li><a href="#" data-toggle="plugin-config-prerequis">Prérequis</a></li>
+            <li><a href="#" data-toggle="plugin-config-inifile">Paramétrage du plugin</a></li>
             <li class="#"><a href="" data-toggle="plugin-config-trayicon">Icônes de la zone de notifications</a></li>
-            <li><a href="#" data-toggle="plugin-config-inifile">Paramètrage du plugin</a></li>
             <li class="nav-header">Utilisation</li>
-            <li><a href="#" data-toggle="plugin-use-commandvoice">Les commandes vocales</a></li>
-            <li><a href="#" data-toggle="plugin-use-scripts">Les scripts autonomes</a></li>
+            <li><a href="#" data-toggle="plugin-use-commandvoice">Commandes vocales</a></li>
+            <li><a href="#" data-toggle="plugin-use-actions">Enchainement d'actions au démarrage</a></li>
+            <li><a href="#" data-toggle="plugin-use-portlet">Informations et icônes du portlet</a></li>
+            <li><a href="#" data-toggle="plugin-use-scripts">Scripts autonomes</a></li>
             <li class="divider"></li>
             <li class="nav-header">Divers</li>
             <!--<li><a href="#" data-toggle="plugin-divers_avance">Explications avancées</a></li>-->
@@ -38,7 +41,21 @@
 <!--Version-->
 	<div class="col-md-9 content">
         <ul class="unstyled" id="plugin-version-runstop">
-        		<img src="/assets/runstop/img/RunStop_Portlet.png" >﻿</br></br>
+			<div class="alert alert-success">Versions</div>
+        	<img src="/assets/runstop/img/RunStop_Portlet.png" >﻿</br></br>
+            <li><i class="icon-play-circle"></i><strong> Version 2.1:</strong></br>
+			[X] PORTLET :</br>
+			&nbsp;&nbsp;&nbsp;- portlet.html :</br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Prise en compte de l'affichage différent selon le navigateur (Firefox, Chrome, Internet Explorer).</br>
+			[X] DIVERS :</br>
+			&nbsp;&nbsp;&nbsp;- runstop.prop :</br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Changement du numéro de version (2.1)</br>
+			&nbsp;&nbsp;&nbsp;- index.html : Mise à jour de la documentation accessible par le portlet.</br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ajout de la rubrique "Prérequis"</br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ajout de la rubrique "Enchainement d'actions au démarrage"</br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ajout de la rubrique "Informations et icônes du portlet"</br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ajout d'aide dans diverses rubriques + cosmétique</br>
+			</br>
             <li><i class="icon-play-circle"></i><strong> Version 2.0:</strong></br>
 			[X] PORTLET :</br>
 			&nbsp;&nbsp;&nbsp;- portlet.html :</br>
@@ -111,42 +128,41 @@
 			</li></br>
 		</ul>
 		
- <!--Content-->
-        <!--Config TRAYICON-->
-        <ul class="unstyled" id="plugin-config-trayicon" style="display: none;">
-          <li><i class="icon-play-circle"></i><strong>&nbsp;Afficher constamment les icônes de la "petite maison" et de Log2Console.</strong></br></br>
-				&nbsp;&nbsp;<strong>Cet affichage n'est utile que dans le cas où le paramètre "<code>StopGracefully</code>" est à "true".</strong></br>
-				&nbsp;&nbsp;L'affichage constante des icönes permet la fermeture propre des applications Micro/Kinect et Log2Console,</br>
-				&nbsp;&nbsp;grâce au script d'automatisation Autoit nommé "Exit_TrayIcon.exe".</br></br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Lancez S.A.R.A.H une première fois.</br></br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Lancez Log2Console (cliquez droit sur la "petite maison" et sélectionnez "Log2Console").</br></br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Cliquez dans la zone de notification sur la petite flèche à gauche des icönes.</br>
-     	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="/assets/runstop/img/TrayIcon01.PNG" >﻿</br></br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Cliquez sur "Personnaliser...".</br>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="/assets/runstop/img/TrayIcon02.PNG" >﻿</br></br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Pour "WSRMicro_Kinect.exe" (ou "WSRMicro.exe") et "Log2Console", choisissez</br>	
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dans la liste déroulante "Afficher l'icöne et les notifications".</br>	
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="/assets/runstop/img/TrayIcon03.PNG" >﻿</br></br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Validez par le bouton "OK".		
-			</li></br>
-        </ul>
-        
+ <!--Content-->        
+        <!--Config FILE-->
+        <ul class="unstyled" id="plugin-config-prerequis" style="display: none;">
+			<div class="alert alert-success">Prérequis</div>
+		 <li><i class="icon-play-circle"></i> <strong>&nbsp;Architecture</strong></br></br>
+				Le plugin "RUNSTOP" n'est pour le moment fonctionnel que pour l'architecture suivante : </br>
+				&nbsp;&nbsp;&nbsp;- Client et serveur sur la même machine.</br>
+				&nbsp;&nbsp;&nbsp;- Et par conséquent machine tournant sous Windows.</br></br>
+				Dans un futur (lointain ? proche ?), une autre version pourra éventuellement prendre en compte une architecture différente :</br>
+				&nbsp;&nbsp;&nbsp;- Client et serveur PAS sur la même machine.</br>
+				&nbsp;&nbsp;&nbsp;- Serveur sur Linux (raspbian ?), sachant que le client doit obligatoirement être Windows.</br></br>
+		 </li></br>
+		 </ul>
+		 
         <!--Config FILE-->
         <ul class="unstyled" id="plugin-config-inifile" style="display: none;">
+			<div class="alert alert-success">Configuration du plugin</div>
 		 <li><i class="icon-play-circle"></i> <strong>&nbsp;ATTENTION</strong></br></br>
 				&nbsp;&nbsp;&nbsp;Si l'affichage du portlet vous parait bizarre (chevauchements d'icônes), augmentez manuellement la largeur du portlet à "2" :</br>
 				&nbsp;&nbsp;&nbsp;- Allez au dos du portlet.</br>
-				&nbsp;&nbsp;&nbsp;- Cliquer sur "Config".</br>
-				&nbsp;&nbsp;&nbsp;- Tout en bas, mettre la valeur "2" dans le champ "w".</br></br>
+				&nbsp;&nbsp;&nbsp;- Cliquez sur "Config".</br>
+				&nbsp;&nbsp;&nbsp;- Tout en bas, mettez la valeur "2" dans le champ "w".</br>
+				&nbsp;&nbsp;&nbsp;- Validez la modification.</br></br>
          <li><i class="icon-play-circle"></i> <strong>&nbsp;Paramétrer le CRON.</strong></br></br>
-				&nbsp;&nbsp;Le paramétrage du CRON est accessible à partir du porlet visible dans la rubrique "C.R.O.N." de la page d'accueil.</br></br>
+				&nbsp;&nbsp;Le paramétrage du CRON est accessible à partir du porlet visible dans la rubrique "C.R.O.N." de la page d'accueil.</br>
+				&nbsp;&nbsp;Normalement il n'est pas nécessaire de changer son paramétrage.</br></br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>time=* * * * *</code></br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Par défaut, cette valeur permet le lancement du CRON toutes les minutes.</br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Voir <a href="http://en.wikipedia.org/wiki/Cron" target="_blank">Wikipedia</a> pour plus d'infos concernant le formatage de cette valeur.</br>
 		 </li></br>
          <li><i class="icon-play-circle"></i> <strong>&nbsp;Paramétrer le plugin.</strong></br></br>
 				&nbsp;&nbsp;Les paramètres sont accessibles depuis le portlet du plugin.</br>
-				&nbsp;&nbsp;Ils sont par défaut stockés dans "runstop.prop", puis dans "custom.prop" dès qu'ils ont été modifiés une première fois.</br></br>
+				&nbsp;&nbsp;&nbsp;- Allez au dos du portlet.</br>
+				&nbsp;&nbsp;&nbsp;- Cliquez sur "Config".</br>
+				&nbsp;&nbsp;Ils sont par défaut stockés dans "runstop.prop" (racine du plugin), puis dans "custom.prop" (racine de SARAH) dès qu'ils ont été modifiés une première fois.</br></br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>UseKinect=true</code></br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Mettez à "true" si vous utilisez une Kinect.</br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Mettez à "false" si vous utilisez un microphone standard.</br></br>
@@ -155,11 +171,11 @@
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Mettez à "true" si vous utilisez seulement la fonction Audio de la reconnaissance de la Kinect.</br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Mettez à "false" si vous utilisez la fonction Audio ET les fonctions de reconnaissance physique (gesture, face).</br></br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>RunServer=true</code></br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Mettez à "true" lancera le serveur au démarrage de SARAH.</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Mettre à "true" lancera le serveur au démarrage de SARAH.</br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Si le serveur était déjà ouvert, aucune autre instance ne sera lancée.</br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Mettre à "false" ne lancera pas le serveur au démarrage.</br></br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>RunClient=true</code></br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Mettez à "true" lancera le client au démarrage de SARAH.</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Mettre à "true" lancera le client au démarrage de SARAH.</br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Si le client était déjà ouvert, aucune autre instance ne sera lancée.</br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Mettre à "false" ne lancera pas le client au démarrage.</br></br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>RunLog2Console=true</code></br>
@@ -180,16 +196,16 @@
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Mettre à "true" minimisera dans la barre des tâches la fenêtre "Log2Console" au démarrage de SARAH.</br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Mettre à "false" affichera de manière normale la fenêtre "Log2Console" au démarrage de SARAH.</br></br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>StopServer=true</code></br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Mettez à "true" arrêtera le serveur lor de la demande de fermeture de SARAH.</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Mettre à "true" arrêtera le serveur lor de la demande de fermeture de SARAH.</br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Mettre à "false" laissera le serveur ouvert lors de la fermeture de SARAH.</br></br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>StopClient=true</code></br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Mettez à "true" arrêtera le client lor de la demande de fermeture de SARAH.</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Mettre à "true" arrêtera le client lor de la demande de fermeture de SARAH.</br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Mettre à "false" laissera le client ouvert lors de la fermeture de SARAH.</br></br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>StopLog2Console=true</code></br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Mettre à "true" pour fermer "Log2Console" en même temps que la fermeture de SARAH.</br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Mettre à "false" pour laisser ouvert "Log2Console" à la fermeture de SARAH.</br></br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>StopGracefully=false</code></br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Veuillez consulter la rubrique d'aide "Icônes de la zone de notifications" si vous mettez ce paramètre à "true".</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Veuillez consulter la rubrique d'aide <strong>"Icônes de la zone de notifications"</strong> si vous mettez ce paramètre à "true".</br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Mettre à "true" pour fermer les modules de manière propre, comme si on le faisait manuellement</br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;à l'aide du click droit sur les icônes de la zone de notification et en choisissant "Exit".</br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Mettre à "false" pour forcer la fermeture des modules, comme si on faisait une fin de tâches</br>
@@ -209,43 +225,58 @@
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ce temps n'est pas pris en compte si aucune action n'a été définie.</br></br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>RunAction_01=SAY:Bonjour !</code></br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Lance de 0 à X actions à la suite : exécutables, sites web, plugins, ou phrase à prononcer.</br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Si l'action lance un plugin, il faut bien sûr penser à l'installer préalablement.</br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Si aucune action à lancer, laisser la valeur de la première vide ("RunActions_01=").</br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <u>Format attendu :</u> :.</br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;On peut  lancer des exécutables ou sites web ("EXE:"), des plugins ("PLG:"), ou des phrases à pononcer ("SAY:").</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- On peut  lancer des exécutables ou sites web ("EXE:"), des plugins ("PLG:"), des phrases à prononcer ("SAY:"), ou une émulation de phrases que l'on prononcerait pour lancer un plugin ("EMU:").</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u>Format attendu :</u> :.</br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXE:chemin_de_l'exécutable</br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXE:http://site.com</br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SAY:phrase à prononcer</br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PLG:nom_du_plugin</br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PLG:nom_du_plugin?action=value</br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <u>Exemples</u> :</br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Action 1 : Affiche la page d'accueil de SARAH :</br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>RunAction_01=EXE:http://127.0.0.1:8080/home</code></br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SARAH prononce une phrase de bienvenue :</br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>RunAction_02=SAY:Bonjour !</code></br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Avec le plugin "dateconviviale". SARAH donne la date/heure du jour :</br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>RunAction_03=PLG:dateconviviale</code></br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Avec le plugin "meteo2", SARAH donne le temps d'aujourd'hui :</br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>RunAction_04=PLG:meteo2?day=0</code></br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SARAH annonce qu'elle est maintenant disponible :</br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>RunAction_05=SAY:Je suis maintenant à votre disposition, j'attends vos ordres.</code></br></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EMU:phrase à prononcer habituellement pour lancer un plugin</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Voir la rubrique d'aide <strong>"L'enchaînement d'actions au démarrage"</strong> pour plus d'informations.</br></br>
 		 </li></br>
 		 </ul>
 				
+        <!--Config TRAYICON-->
+        <ul class="unstyled" id="plugin-config-trayicon" style="display: none;">
+			<div class="alert alert-success">Configuration de la zone de notification</div>
+          <li><i class="icon-play-circle"></i><strong>&nbsp;Afficher constamment l'icône de la "petite maison".</strong></br></br>
+				&nbsp;&nbsp;<strong>Cet affichage n'est utile que dans le cas où le paramètre "<code>StopGracefully</code>" est à "true".</strong></br></br>
+				&nbsp;&nbsp;L'affichage constante de l'icône permet la fermeture propre des applications Micro/Kinect, grâce au script d'automatisation Autoit nommé "Exit_TrayIcon.exe".</br></br>
+				&nbsp;&nbsp;<u>Ce script va concrètement</u> (de manière quasi instantanée) :</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- déplacer le curseur de la souris sur l'icône de la petite maison, </br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- faire un clic droit pour faire apparaître le menu,</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- monter d'un cran et cliquer sur "Exit".</br></br>
+				&nbsp;&nbsp;<u>Configuration :</u></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Lancez S.A.R.A.H une première fois.</br></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Cliquez dans la zone de notification sur la petite flèche à gauche des icônes.</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="/assets/runstop/img/TrayIcon01.PNG" >﻿</br></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Cliquez sur "Personnaliser...".</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="/assets/runstop/img/TrayIcon02.PNG" >﻿</br></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Pour "WSRMicro_Kinect.exe" (ou "WSRMicro.exe"), choisissez dans la liste déroulante "Afficher l'icône et les notifications".</br>	
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="/assets/runstop/img/TrayIcon03.PNG" >﻿</br></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Validez par le bouton "OK".		
+			</li></br>
+        </ul>
+		
      <!--UTILISATION-->
      
         <!--Commandes vocales-->
         <ul class="unstyled" id="plugin-use-commandvoice" style="display: none;">
+			<div class="alert alert-success">Commandes vocales</div>
 				Ces commandes peuvent être modifiées dans le fichier <strong>"runstop.xml"</strong> du plugin.</br></br>
             <li><i class="icon-play-circle"></i><strong> Rejouer les actions définies pour le démarrage de SARAH</strong></li></br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>Sarah rejoue les actions.</code></br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sarah va relancer les actions définies dans les paramétrage du plugin (RunAction_01 ...).</br></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sarah va relancer les actions définies dans les paramétrage du plugin (RunAction_01 ...).</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Voir la rubrique d'aide <strong>"L'enchaînement d'actions au démarrage"</strong> pour plus d'informations.</br></br>
             <li><i class="icon-play-circle"></i><strong> Mise en veille / reprise de SARAH</strong></li></br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Intégration du plugin "Veille" existant dans le Store)</br></br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>Sarah mets toi en veille.</code></br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mets en veille SARAH (n'écoute aucune commande) pour un certain temps (défini en ms par "ctxTimeOut" dans le fichier custom.ini).</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mets en veille SARAH (n'écoute aucune commande) pour un certain temps, par défaut de 60 secondes.</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ce délai est défini en ms par "ctxTimeOut" dans le fichier custom.ini à la racine de SARAH.</br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Par exemple pour désactiver Sarah pendant 3h il faudra mettre 10800000</br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(1000 millisecondes x 60 secondes x 60 minutes x 3 heures)..</br></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(1000 millisecondes x 60 secondes x 60 minutes x 3 heures)..</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTENTION : tous les contextes qui pourraient être utilisés dans les plugins de SARAH prendront cette nouvelle valeur.</br></br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>Sarah reviens maintenant.</code></br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sarah va dire "je suis de retour" et on peut de nouveau utiliser toutes les commandes vocales.</br></br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>Sarah es tu là</code></br>
@@ -259,18 +290,102 @@
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;puis elle redémarre tous ses modules, comme paramétré dans le plugin</br></br> 
             <li><i class="icon-play-circle"></i><strong> Actions sur l'ordinateur</strong></li></br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Les commandes parlents d'elles-même ...</br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>Sarah verrouille la session.</code></br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>Sarah ferme la session.</code></br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>Sarah mets l'ordinateur en veille.</code></br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>Sarah mets l'ordinateur en hibernation.</code></br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>Sarah arrête l'ordinateur.</code></br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>Sarah redémarre l'ordinateur.</code></br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>Sarah redémarre de force l'ordinateur.</code></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>Sarah verrouille la session.</code></br></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>Sarah ferme la session.</code></br></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>Sarah mets l'ordinateur en veille.</code></br></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>Sarah mets l'ordinateur en hibernation.</code></br></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>Sarah arrête l'ordinateur.</code></br></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>Sarah redémarre l'ordinateur.</code></br></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>Sarah redémarre de force l'ordinateur.</code></br></br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>Sarah annule l'arrêt de l'ordinateur.</code></br></br>
+        </ul>
+		
+		
+        <!--Enchainement d'actions au demarrage-->
+        <ul class="unstyled" id="plugin-use-actions" style="display: none;">
+			<div class="alert alert-success">Enchaînement d'actions au démarrage</div>
+            <li><i class="icon-play-circle"></i><strong> A quoi servent-elles ?</strong></li></br>
+				Des actions peuvent être exécutées automatiquement lorsque SARAH démarre.</br>
+				On peut :</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Lancer des exécutables ou  afficher des sites web ("EXE:"),</br> 
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Exécuter des plugins ("PLG:"), </br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Faire prononcer des phrases à SARAH ("SAY:"), </br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Emuler des phrases que l'on prononcerait pour lancer un plugin ("EMU:").</br></br>
+            <li><i class="icon-play-circle"></i><strong> Où les définir ?</strong></li></br>
+				Ces actions doivent être définies dans le paramétrage du plugin :</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Allez au dos du portlet (en cliquant sur l'icône "recyclage" dans le coin en haut à droite).</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Cliquez sur "Config".</br></br>
+            <li><i class="icon-play-circle"></i><strong> Comment les paramétrer ?</strong></li></br>
+				&nbsp;&nbsp;&nbsp;<u>Format attendu :</u> :.</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXE:chemin_de_l'exécutable</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXE:http://site.com</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SAY:phrase à prononcer</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PLG:nom_du_plugin</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PLG:nom_du_plugin?action=value</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EMU:phrase à prononcer habituellement pour lancer un plugin</br></br>
+				&nbsp;&nbsp;&nbsp;<u>Exemples</u> :</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Action 1 : Affiche la page d'accueil de SARAH :</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>RunAction_01=EXE:http://127.0.0.1:8080/home</code></br></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Action 2 : SARAH prononce une phrase de bienvenue :</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>RunAction_02=SAY:Bonjour !</code></br></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Action 3 : Avec le plugin "dateconviviale". SARAH donne la date du jour :</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>RunAction_03=PLG:dateconviviale</code></br></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Action 4 : Avec le plugin "time" (installé d'office dans SARAH), on obtient l'heure actuelle :</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>RunAction_04=EMU:Sarah quelle heure est-il ?</code></br></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Action 5 : Avec le plugin "meteo2", SARAH donne le temps d'aujourd'hui :</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>RunAction_05=PLG:meteo2?day=0</code></br></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Action 6 : SARAH annonce qu'elle est maintenant disponible :</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>RunAction_06=SAY:Je suis maintenant à votre disposition, j'attends vos ordres.</code></br></br>
+            <li><i class="icon-play-circle"></i><strong> Si je veux définir plus que 8 actions maximum ?</strong></li></br>
+				Il suffit d'éditer le fichier "runstop.prop" et d'ajouter autant de champs "RunAction_XX" que vous désirez, les uns à la suite des autres.</br>
+				Attention à bien faire attention au format JSON du fichier (virgules à la fin des lignes sauf pour la dernière, etc...)</code></br></br>
+            <li><i class="icon-play-circle"></i><strong> Et si je veux rejouer les actions une nouvelle fois ?</strong></li></br>
+				Vous pouvez prononcer la commande vocale suivante : </br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>Sarah rejoue les actions.</code></br></br>
         </ul>
         
         <!--Scripts autonomes-->
+        <ul class="unstyled" id="plugin-use-portlet" style="display: none;">
+			<div class="alert alert-success">Information et icônes du portlet</div>
+        	<img src="/assets/runstop/img/RunStop_Portlet.png" >﻿</br></br>
+				Le face avant du portlet affiche deux "zones" d'information, "SARAH" et "SYSTEM".</br>
+				Pour chacune d'entre elles, on a sur une ligne "Last Boot" et "Uptime", puis des icônes sur une autre ligne.</br></br>
+            <li><i class="icon-play-circle"></i><strong> Les informations affichées : "Last Boot" et "Uptime"</strong></li></br>
+				&nbsp;&nbsp;&nbsp;<strong>- SARAH last boot :</strong></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Donne la date du dernier démarrage de SARAH (format: j/m/a h:m:s)</br>
+				&nbsp;&nbsp;&nbsp;<strong>- SARAH uptime :</strong></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Donne le temps écoulé depuis le dernier démarrage de SARAH (format: h:m:s)</br>
+				&nbsp;&nbsp;&nbsp;<strong>- SYSTEM last boot :</strong></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Donne la date du dernier démarrage de l'ordinateur (format: j/m/a h:m:s)</br>
+				&nbsp;&nbsp;&nbsp;<strong>- SYSTEM uptime :</strong></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Donne le temps écoulé depuis le dernier démarrage de l'ordinateur (format: h:m:s)</br></br>
+            <li><i class="icon-play-circle"></i><strong> Rafraichissement automatique des informations "Uptime"</strong></li></br>
+				&nbsp;&nbsp;&nbsp;Toutes les minutes, la valeur de "uptime" est rafraichie, que ce soit pour "SARAH" ou pour "SYSTEM".</br>
+				&nbsp;&nbsp;&nbsp;En tâche de fond, lors du rafraichissement, des requêtes sont envoyées à SARAH pour récupérer ces infos.</br>
+				&nbsp;&nbsp;&nbsp;Si vous ne désirez plus que le rafraichissement se fasse automatiquement, et préférez le faire manuellement en rafraichissant la page (par F5 par exemple), procédez comme suit : </br>
+				&nbsp;&nbsp;&nbsp;- Editez le fichier "portlet.html" à la racine du répertoire du plugin.</br>
+				&nbsp;&nbsp;&nbsp;- Suivez les instructions en commentaire dans ce fichier.</br></br>
+            <li><i class="icon-play-circle"></i><strong> Les icônes</strong></li></br>
+				Ces icônes sont cliquables, et lancent l'équivalent d'une des commandes vocales possibles pour le plugin.</br>
+				Laissez le curseur de la souris dessus, afin d'afficher une bulle d'aide (tooltip) décrivant l'action correspondante.</br>
+				&nbsp;&nbsp;&nbsp;<strong>- Pour SARAH :</strong></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Reprise après mise en veille (Reviens maintenant)</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Mise en veille (Mets-toi en veille)</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Redémarrage (Redémarre s'il te plait)</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Arrêt (Arrête-toi définitivement)</br>
+				&nbsp;&nbsp;&nbsp;<strong>- Pour SYSTEM :</strong></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Verrouillage de la session (Verrouille la session)</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Fermeture de la session (Ferme la session)</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Veille (Mets l'ordinateur en veille)</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Hibernation (Mets l'ordinateur en hibernation)</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Redémarrage (Redémarre l'ordinateur)</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Redémarrage forcé (Redémarre de force l'ordinateur)</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Arrêt (Arrête l'ordinateur)</br></br>
+        </ul>
+				
+        <!--Scripts autonomes-->
         <ul class="unstyled" id="plugin-use-scripts" style="display: none;">
+			<div class="alert alert-success">Utilisation des scripts</div>
 				Trois scripts principaux pour SARAH existent :</br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <strong>"SARAH_Run.vbs"</strong> : Démarre S.A.R.A.H. de A à Z.</br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <strong>"SARAH_Stop.vbs"</strong> : Arrête S.AR.A.H. en fermant tous ses modules.</br>
@@ -294,7 +409,7 @@
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <strong>"PC_RestartForce.vbs"</strong> : Redémarre de force l'ordinateur.</br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <strong>"PC_CancelStop.vbs"</strong> : Annule l'arrêt de l'ordinateur.</br></br></br>
 				Les scripts sont appelés soit par commande vocale, soit par l'interface du portlet (icônes cliquables).</br>
-				Ils peuvent également être utilisés de manière totalement indépendante de SARAH :</br></br>
+				Ils peuvent également être lancés manuellement, de manière totalement indépendante de SARAH :</br></br>
             <li><i class="icon-play-circle"></i><strong> Par accès direct</strong></li></br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Il suffit de double-cliquer sur chacun d'entre eux.</br></br> 
             <li><i class="icon-play-circle"></i><strong> En tant que raccourcis d'un module de l'interface Rainmeter</strong></li></br>
@@ -404,17 +519,27 @@
         
        <!--Problèmes rencontrés -->
         <ul class="unstyled" id="plugin-divers_problemes" style="display: none;">
+			<div class="alert alert-success">Problèmes rencontrés</div>
+            <li><i class="icon-play-circle"></i><strong> Les icônes sur le portlet se chevauchent</strong></br></br>
+				&nbsp;&nbsp;&nbsp;Si l'affichage du portlet vous parait bizarre (chevauchements d'icônes), augmentez manuellement la largeur du portlet à "2" :</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Allez au dos du portlet (en cliquant sur l'icône "recyclage" dans le coin en haut à droite).</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Cliquez sur "Config".</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Tout en bas, mettre la valeur "2" dans le champ "<code>w</code>".</br></br>
+ 			</li>
+            <li><i class="icon-play-circle"></i><strong> Erreur :	Impossible d’établir une connexion avec le serveur</strong></br></br>
+				&nbsp;&nbsp;&nbsp;Peut se produire si la première action ("RunAction_01=XXXXXX") est envoyée trop tôt au serveur HTTP.</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=> Augmenter le délait d'attente en procédant comme suit : </br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Allez au dos du portlet (en cliquant sur l'icône "recyclage" dans le coin en haut à droite).</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Cliquez sur "Config".</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Dans les paramètres, changez la valeur de <code>TimeBeforeFirstAction</code>: par défaut 8000 (8 sec), essayez 10000 ou 12000 ...</br></br>
+ 			</li>
             <li><i class="icon-play-circle"></i><strong> Les fichiers VBS ne s'exécutent pas mais s'ouvrent dans un éditeur (Bloc-Notes)</strong></br></br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- L'association des fichiers VBS dans Windows est à redéfinir :</br>
+				&nbsp;&nbsp;&nbsp;L'association des fichiers VBS dans Windows est à redéfinir :</br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Sélectionner dans l'explorateur de Windows un fichier .VBS.</br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Clic droit dessus/ouvrir avec (cocher la case "toujours ouvrir avec").</br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Choisir le programme à ouvrir par défaut en sélectionnant :</br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>C:\Windows\system32\wscript.exe</code> si vous êtes dans un environnement 32 bits.</br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>C:\Windows\SysWOW64\wscript.exe</code> si vous êtes dans un environnement 64 bits</br></br>
- 			</li>
-            <li><i class="icon-play-circle"></i><strong> Erreur :	Impossible d’établir une connexion avec le serveur</strong></br></br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Peut se produire si la première action ("RunAction_01=XXXXXX") est envoyée trop tôt au serveur HTTP.</br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- => Augmenter le temps dans le paramétrage du plugin : <code>TimeBeforeFirstAction</code></br></br>
  			</li>
  			
         </ul>

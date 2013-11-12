@@ -3,8 +3,9 @@
     "runstop" : {
       "name"        : "runstop",
       "description" : "Permet de rafraichir les informations du portlet pour le plugin RunStop.",
-      "version"     : "2.0",
+      "version"     : "2.1",
       "y"           : "3",
+      "w"           : "2",
       "time"        : "* * * * *"
     }
   },
@@ -12,7 +13,7 @@
   "modules" : {
     "runstop" : {
       "description" : "Centre de controle de S.A.R.A.H et du PC (Arret, (Re)démarrage, Veille, Actions ...)",
-      "version"     : "2.0",
+      "version"     : "2.1",
       "w"           : "2",
       "UseKinect"             : "true",
       "UseKinectAudio"        : "false",
