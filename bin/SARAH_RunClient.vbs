@@ -11,7 +11,7 @@ Dim WshShell, objWMIService, objFSO, colProcesses, objProcess
 Dim cJson, objProp
 Dim sRunStopProp
 Dim sScriptPath, sPluginPath, sRootPath
-Dim sKinect, sMicro, sClient, sCmdLineKinect, sCmdLineMicro, sCmdLineClient
+Dim sKinect, sMicro, sKinectAudio, sClient, sCmdLineKinect, sCmdLineMicro, sCmdLineClient
 Dim bUseKinect, bUseKinectAudio, bClientIsRunning
 Dim iWindowState
 Dim iReturnValue
